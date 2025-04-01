@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDrivers } from '../../contexts/DriverContext';
 import Alert from '../ui/Alert'; // Correct import path
+import Modal from '../ui/Modal';
 import useFirestore from '../../hooks/useFirestore'; // Correct import path
 
 const DriverIncidents = () => {
