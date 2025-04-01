@@ -1,0 +1,436 @@
+/* src/styles/responsive.css */
+/* Responsive styles for different screen sizes */
+
+/* Large desktop (1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+      max-width: 1140px;
+    }
+    
+    .dashboard-grid {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+  
+  /* Desktop (992px to 1199px) */
+  @media (max-width: 1199px) {
+    .container {
+      max-width: 960px;
+    }
+    
+    .dashboard-grid {
+      grid-template-columns: 3fr 2fr;
+    }
+    
+    .card-container {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    
+    .progress-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .progress-circle {
+      margin-bottom: 1rem;
+    }
+    
+    .welcome-banner {
+      padding: 1.25rem;
+    }
+    
+    .welcome-title {
+      font-size: 1.25rem;
+    }
+    
+    .quick-action {
+      min-width: 180px;
+    }
+  }
+  
+  /* Tablet (768px to 991px) */
+  @media (max-width: 991px) {
+    .container {
+      max-width: 720px;
+    }
+    
+    /* Dashboard layout */
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .login-container,
+    .register-container,
+    .password-reset-container {
+      flex-direction: column;
+    }
+    
+    .login-form,
+    .register-form,
+    .password-reset-form,
+    .login-welcome,
+    .register-welcome,
+    .password-reset-image {
+      width: 100%;
+      padding: 2rem;
+    }
+    
+    .login-welcome,
+    .register-welcome,
+    .password-reset-image {
+      display: none;
+    }
+    
+    .dashboard-header {
+      padding: 0.5rem 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .logo {
+      font-size: 1.25rem;
+    }
+    
+    .search-bar {
+      width: 200px;
+    }
+    
+    .header-icons {
+      gap: 1rem;
+    }
+    
+    /* Driver details */
+    .details-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .driver-profile-header {
+      flex-direction: column;
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .driver-avatar {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+    
+    .driver-actions {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+    
+    .driver-tabs {
+      flex-wrap: wrap;
+    }
+    
+    .driver-tab {
+      padding: 0.5rem 1rem;
+    }
+    
+    /* Financial section */
+    .deduction-circle-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .deduction-circle {
+      margin-bottom: 1rem;
+    }
+    
+    .date-range-filters {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .download-invoices {
+      margin-left: 0;
+      margin-top: 1rem;
+      width: 100%;
+    }
+    
+    .download-invoices .btn {
+      width: 100%;
+    }
+    
+    /* Incidents section */
+    .incidents-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .incident-search-container {
+      width: 100%;
+    }
+    
+    .create-incident-btn {
+      width: 100%;
+    }
+    
+    /* Engagement section */
+    .engagement-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .external-id-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .external-id-label {
+      width: auto;
+      margin-right: 0;
+    }
+    
+    .evidence-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    /* Home page features */
+    .features-grid,
+    .pricing-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-content {
+      flex-direction: column;
+    }
+    
+    .footer-content {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .footer-links {
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+  }
+  
+  /* Mobile Landscape (576px to 767px) */
+  @media (max-width: 767px) {
+    .container {
+      max-width: 540px;
+    }
+    
+    .navbar {
+      padding: 0.5rem 1rem;
+    }
+    
+    .nav-links {
+      display: none;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+    }
+    
+    .search-bar {
+      order: 3;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    
+    .dashboard-container {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: static;
+      border-right: none;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .sidebar-item {
+      padding: 0.75rem 1rem;
+    }
+    
+    .quick-actions {
+      flex-direction: column;
+    }
+    
+    .quick-action {
+      width: 100%;
+    }
+    
+    .card-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .filter-section {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .driver-search {
+      width: 100%;
+      max-width: none;
+    }
+    
+    .filter-options {
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .btn-outline {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    
+    .filter-tabs {
+      width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 0.5rem;
+    }
+    
+    .drivers-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    
+    .onboarding-table th:nth-child(3),
+    .onboarding-table td:nth-child(3),
+    .onboarding-table th:nth-child(4),
+    .onboarding-table td:nth-child(4) {
+      display: none;
+    }
+    
+    .drivers-table th, 
+    .drivers-table td {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+    }
+  }
+  
+  /* Mobile Portrait (up to 575px) */
+  @media (max-width: 575px) {
+    .container {
+      width: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    h1 {
+      font-size: 1.75rem;
+    }
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      font-size: 1.25rem;
+    }
+    
+    .btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+    
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .remember-forgot {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .dashboard-content {
+      padding: 0.75rem;
+    }
+    
+    .metric-value {
+      font-size: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 1rem;
+    }
+    
+    .drivers-table th:nth-child(4),
+    .drivers-table td:nth-child(4),
+    .drivers-table th:nth-child(5),
+    .drivers-table td:nth-child(5) {
+      display: none;
+    }
+    
+    .onboarding-table th:nth-child(5),
+    .onboarding-table td:nth-child(5),
+    .onboarding-table th:nth-child(6),
+    .onboarding-table td:nth-child(6),
+    .onboarding-table th:nth-child(7),
+    .onboarding-table td:nth-child(7) {
+      display: none;
+    }
+    
+    .financial-row {
+      flex-direction: column;
+      padding: 0.5rem 0;
+    }
+    
+    .financial-header,
+    .financial-data {
+      width: 100%;
+      padding: 0.25rem 0;
+    }
+    
+    .welcome-actions {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .welcome-actions .btn {
+      width: 100%;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .date-filter {
+      width: 100%;
+    }
+    
+    .date-input {
+      width: 100%;
+    }
+    
+    .empty-state {
+      padding: 2rem 1rem;
+    }
+    
+    .empty-state-title {
+      font-size: 1.125rem;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .form-actions .btn {
+      width: 100%;
+    }
+    
+    /* Modal adjustments */
+    .modal-container {
+      width: 95%;
+      max-height: 80vh;
+    }
+    
+    .modal-header h2 {
+      font-size: 1.25rem;
+    }
+  }
