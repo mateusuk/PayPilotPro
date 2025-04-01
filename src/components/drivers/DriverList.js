@@ -6,7 +6,7 @@ import AddDriver from './AddDriver';
 import '../../styles/drivers.css';
 
 const DriverList = () => {
-  const { drivers, loading, error, getDriversByStatus } = useDrivers();
+  const { loading, getDriversByStatus } = useDrivers();
   const [showAddModal, setShowAddModal] = useState(false);
   const [activeTab, setActiveTab] = useState('active');
   const [searchTerm, setSearchTerm] = useState('');

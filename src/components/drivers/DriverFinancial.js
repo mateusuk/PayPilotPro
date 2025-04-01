@@ -4,7 +4,6 @@ import { useParams, Link } from 'react-router-dom';
 import { useDrivers } from '../../contexts/DriverContext';
 import { isValidUTR, isValidVAT } from '../../utils/validators';
 import Alert from '../ui/Alert';
-import Loader from '../ui/Loader';
 import '../../styles/drivers.css';
 
 const DriverFinancial = () => {

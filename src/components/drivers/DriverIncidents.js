@@ -1,14 +1,12 @@
 // Example for src/components/drivers/DriverEngagement.js
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useDrivers } from '../../contexts/DriverContext';
-import Alert from '../ui/Alert'; // Correct import path
-import Modal from '../ui/Modal';
+import { useParams } from 'react-router-dom';
+import Modal from '../ui/Modal'; // Import the Modal component
 import useFirestore from '../../hooks/useFirestore'; // Correct import path
 
 const DriverIncidents = () => {
   const { id } = useParams();
-  const { getDocument, addDocument, getDocuments } = useFirestore('drivers');
+  const { getDocument } = useFirestore('drivers');
   const firestoreIncidents = useFirestore('incidents');
   const firestoreDeductions = useFirestore('deductions');
   const [driver, setDriver] = useState(null);
@@ -282,4 +280,3 @@ const DriverIncidents = () => {
 };
 
 export default DriverIncidents;
-

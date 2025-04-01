@@ -134,7 +134,7 @@ const Home = () => {
               With a focus on compliance, efficiency, and user experience, PayPilotPro has quickly 
               become the leading platform for managing self-employed drivers in the logistics industry.
             </p>
-            <a href="#" className="btn btn-secondary">Learn More About Us</a>
+            <Link to="/about-us" className="btn btn-secondary">Learn More About Us</Link>
           </div>
           <div className="about-image">
             <div className="image-placeholder"></div>

@@ -11,7 +11,6 @@ import {
   deleteDoc,
   query,
   where,
-  orderBy,
   onSnapshot,
   serverTimestamp 
 } from 'firebase/firestore';
@@ -178,7 +177,7 @@ const useFirestore = (collectionName) => {
    * Add a new document to the collection
    * 
    * @param {Object} data - The document data to add
-   * @returns {Promise<Object>} The added document with ID
+   * @returns {Promise<string>} The ID of the added document
    */
   const addDocument = async (data) => {
     try {
@@ -197,7 +196,7 @@ const useFirestore = (collectionName) => {
       
       const docRef = await addDoc(collection(db, collectionName), dataWithMeta);
       
-      // Return the new document with ID
+      // Return the new document ID
       return docRef.id;
     } catch (err) {
       console.error(`Error adding document to ${collectionName}:`, err);

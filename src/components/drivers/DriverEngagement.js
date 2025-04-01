@@ -1,20 +1,14 @@
 // Example for src/components/drivers/DriverEngagement.js
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useDrivers } from '../../contexts/DriverContext';
-import Alert from '../ui/Alert'; // Correct import path
+import { useParams } from 'react-router-dom';
 import useFirestore from '../../hooks/useFirestore'; // Correct import pathe';
-import { useNavigate } from 'react-router-dom';
-
 
 const DriverEngagement = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { getDocument, updateDocument } = useFirestore('drivers');
   const [driver, setDriver] = useState(null);
   const [loading, setLoading] = useState(true);
   const [locations, setLocations] = useState([]);
-  const [agreements, setAgreements] = useState([]);
   const [externalId, setExternalId] = useState('');
   const [editingExternalId, setEditingExternalId] = useState(false);
 
@@ -25,7 +19,6 @@ const DriverEngagement = () => {
         setDriver(driverData);
         setExternalId(driverData.externalId || '');
         setLocations(driverData.locations || []);
-        setAgreements(driverData.agreements || []);
       } catch (err) {
         console.error('Error fetching driver:', err);
       } finally {

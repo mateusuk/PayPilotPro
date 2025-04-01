@@ -7,7 +7,7 @@ import '../../styles/drivers.css';
 const DriverDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getDriver, updateDriver, deleteDriver, uploadDriverDocument, error } = useDrivers();
+  const { getDriver, updateDriver, uploadDriverDocument } = useDrivers();
   const [driver, setDriver] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
