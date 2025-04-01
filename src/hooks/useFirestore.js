@@ -1,5 +1,5 @@
 // src/hooks/useFirestore.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { db } from '../firebase/config';
 import { 
   collection, 
@@ -11,8 +11,11 @@ import {
   deleteDoc,
   query,
   where,
-  orderBy 
+  orderBy,
+  onSnapshot,
+  serverTimestamp 
 } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 /**
  * Custom hook for Firestore operations
@@ -24,6 +27,7 @@ const useFirestore = (collectionName) => {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const auth = getAuth();
   
   // Store the latest query for real-time updates
   const latestQuery = useRef(null);
@@ -99,6 +103,37 @@ const useFirestore = (collectionName) => {
   };
   
   /**
+   * Get documents by a specific field and value
+   *
+   * @param {string} field - The field to query
+   * @param {string} operator - The query operator ('==', '>', '<', etc.)
+   * @param {any} value - The value to compare against
+   * @returns {Promise<Array>} Array of documents matching the query
+   */
+  const getDocumentsByQuery = async (field, operator, value) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const q = query(collection(db, collectionName), where(field, operator, value));
+      const querySnapshot = await getDocs(q);
+      
+      const results = [];
+      querySnapshot.forEach((doc) => {
+        results.push({ id: doc.id, ...doc.data() });
+      });
+      
+      return results;
+    } catch (err) {
+      console.error(`Error getting documents from ${collectionName} by query:`, err);
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  /**
    * Subscribe to real-time updates of a query
    * 
    * @param {Array} queryConstraints - Array of query constraints
@@ -150,6 +185,8 @@ const useFirestore = (collectionName) => {
       setLoading(true);
       setError(null);
       
+      const currentUser = auth.currentUser;
+      
       // Add timestamps and user ID
       const dataWithMeta = {
         ...data,
@@ -161,13 +198,7 @@ const useFirestore = (collectionName) => {
       const docRef = await addDoc(collection(db, collectionName), dataWithMeta);
       
       // Return the new document with ID
-      return {
-        id: docRef.id,
-        ...data,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        createdBy: currentUser?.uid || null
-      };
+      return docRef.id;
     } catch (err) {
       console.error(`Error adding document to ${collectionName}:`, err);
       setError(err.message);
@@ -248,6 +279,7 @@ const useFirestore = (collectionName) => {
     loading,
     getDocument,
     getDocuments,
+    getDocumentsByQuery,
     subscribeToQuery,
     addDocument,
     updateDocument,

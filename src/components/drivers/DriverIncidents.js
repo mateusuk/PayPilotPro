@@ -9,6 +9,7 @@ const DriverIncidents = () => {
   const { id } = useParams();
   const { getDocument, addDocument, getDocuments } = useFirestore('drivers');
   const firestoreIncidents = useFirestore('incidents');
+  const firestoreDeductions = useFirestore('deductions');
   const [driver, setDriver] = useState(null);
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +69,7 @@ const DriverIncidents = () => {
       
       // If create deduction is checked, create a deduction record
       if (incidentData.createDeduction) {
-        await useFirestore('deductions').addDocument({
+        await firestoreDeductions.addDocument({
           driverId: id,
           driverName: `${driver.firstName} ${driver.lastName}`,
           incidentId: newIncidentId,
@@ -280,3 +281,4 @@ const DriverIncidents = () => {
 };
 
 export default DriverIncidents;
+
