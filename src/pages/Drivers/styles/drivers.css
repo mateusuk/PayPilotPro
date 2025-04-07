@@ -1,0 +1,161 @@
+/* src/pages/Drivers/styles/drivers.css */
+:root {
+  --primary-color: #65C07A;
+  --primary-dark: #4B9E5F;
+  --primary-light: #E8F5EA;
+  --secondary-color: #4A90E2;
+  --dark-color: #2C3E50;
+  --gray-color: #95A5A6;
+  --border-color: #E1E1E1;
+  --success-color: #27AE60;
+  --warning-color: #F1C40F;
+  --danger-color: #E74C3C;
+  --info-color: #3498DB;
+}
+
+/* Common button styles */
+.btn {
+  padding: 0.625rem 1.25rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #357ABD;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--dark-color);
+  border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+  background-color: #f0f0f0;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.625rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 12 12'%3E%3Cpath d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.75rem;
+  padding-right: 2rem;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-active {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.status-inactive {
+  background-color: #FDE8E7;
+  color: var(--danger-color);
+}
+
+.status-pending {
+  background-color: #FFF3DC;
+  color: #F1A204;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #65C07A;
+    --primary-dark: #4B9E5F;
+    --primary-light: #1A2F1D;
+    --dark-color: #ECF0F1;
+    --gray-color: #95A5A6;
+    --border-color: #2C3E50;
+  }
+
+  body {
+    background-color: #1a1a1a;
+    color: #ECF0F1;
+  }
+
+  .btn-outline {
+    border-color: #2C3E50;
+    color: #ECF0F1;
+  }
+
+  .btn-outline:hover {
+    background-color: #2C3E50;
+  }
+
+  .form-control,
+  .form-select {
+    background-color: #2C3E50;
+    border-color: #34495E;
+    color: #ECF0F1;
+  }
+
+  .form-control:focus {
+    border-color: var(--primary-color);
+  }
+
+  .form-label {
+    color: #ECF0F1;
+  }
+} 

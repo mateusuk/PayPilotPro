@@ -7,13 +7,14 @@ import {
   getDocs, 
   doc, 
   getDoc, 
+  setDoc, 
   updateDoc, 
   deleteDoc, 
   addDoc,
   serverTimestamp,
   orderBy
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../firebase/config';
 import { useAuth } from './AuthContext';
 

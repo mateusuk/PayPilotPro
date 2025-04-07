@@ -1,0 +1,238 @@
+.details-section {
+  background: var(--surface-card);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  box-shadow: var(--card-shadow);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.details-container {
+  background: var(--surface-section);
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+
+.details-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.details-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color-secondary);
+}
+
+.detail-value {
+  font-size: 1rem;
+  color: var(--text-color);
+  padding: 0.5rem 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 4px;
+  background: var(--surface-ground);
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-color-alpha);
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  color: var(--text-color-secondary);
+}
+
+/* Error State */
+.error-container {
+  text-align: center;
+  padding: 2rem;
+  background: var(--surface-card);
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.error-container h3 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.error-container p {
+  color: var(--text-color-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Back Navigation */
+.back-navigation {
+  margin-bottom: 1.5rem;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: var(--primary-color);
+}
+
+.back-icon {
+  font-size: 1.25rem;
+}
+
+/* Driver Profile Header */
+.driver-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.driver-avatar {
+  flex-shrink: 0;
+}
+
+.avatar-circle {
+  width: 64px;
+  height: 64px;
+  background: var(--surface-ground);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-icon {
+  font-size: 2rem;
+}
+
+.driver-info {
+  flex-grow: 1;
+}
+
+.driver-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 0.5rem;
+}
+
+.driver-status {
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Driver Tabs */
+.driver-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+  padding-bottom: 0.5rem;
+}
+
+.driver-tab {
+  padding: 0.75rem 1rem;
+  color: var(--text-color-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.driver-tab:hover {
+  background: var(--surface-hover);
+  color: var(--text-color);
+}
+
+.driver-tab.active {
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+/* Status Badges */
+.status-active {
+  color: var(--green-500);
+}
+
+.status-inactive {
+  color: var(--red-500);
+}
+
+.status-pending {
+  color: var(--yellow-500);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .form-control,
+  .form-select {
+    background: var(--surface-card);
+  }
+  
+  .avatar-circle {
+    background: var(--surface-card);
+  }
+} 

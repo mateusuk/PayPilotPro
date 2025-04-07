@@ -2,11 +2,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { FaBars, FaTimes, FaBell, FaUser, FaSearch } from 'react-icons/fa';
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const profileMenuRef = useRef(null);
   const notificationsRef = useRef(null);
@@ -15,47 +17,42 @@ const Header = () => {
   // Get page title based on current path
   const getPageTitle = () => {
     const path = location.pathname;
+    const titles = {
+      '/dashboard': 'Dashboard',
+      '/drivers': 'Drivers',
+      '/compliance': 'Compliance',
+      '/payments': 'Payments',
+      '/work-history': 'Work History',
+      '/reporting': 'Reporting',
+      '/settings': 'Settings',
+      '/comments': 'Comments',
+      '/support': 'Support'
+    };
     
-    if (path === '/dashboard') {
-      return 'Enterprise Logistics - Dashboard';
-    } else if (path.includes('/drivers')) {
-      return 'Enterprise Logistics - Drivers';
-    } else if (path.includes('/compliance')) {
-      return 'Enterprise Logistics - Compliance';
-    } else if (path.includes('/payments')) {
-      return 'Enterprise Logistics - Payments';
-    } else if (path.includes('/work-history')) {
-      return 'Enterprise Logistics - Work History';
-    } else if (path.includes('/reporting')) {
-      return 'Enterprise Logistics - Reporting';
-    } else if (path.includes('/settings')) {
-      return 'Enterprise Logistics - Settings';
-    } else if (path.includes('/comments')) {
-      return 'Enterprise Logistics - Comments';
-    } else if (path.includes('/support')) {
-      return 'Enterprise Logistics - Support';
-    }
-    
-    return 'Enterprise Logistics';
+    return titles[path] || 'PayPilotPro';
   };
   
-  // Handle click outside to close menus
+  // Handle click outside of menus
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
         setShowProfileMenu(false);
       }
-      
       if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
     };
     
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+  
+  // Handle search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Implement search functionality
+    console.log('Searching for:', searchTerm);
+  };
   
   // Handle logout
   const handleLogout = async () => {
@@ -66,17 +63,10 @@ const Header = () => {
     }
   };
   
-  // Handle search
-  const handleSearch = (e) => {
-    e.preventDefault();
-    
-    if (!searchTerm.trim()) return;
-    
-    // Implement search functionality
-    console.log('Searching for:', searchTerm);
-    
-    // Clear search term
-    setSearchTerm('');
+  // Toggle mobile menu and sidebar
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
+    document.body.classList.toggle('sidebar-visible');
   };
   
   if (!currentUser) {
@@ -84,30 +74,47 @@ const Header = () => {
   }
   
   return (
-    <div className="dashboard-header">
-      <Link to="/dashboard" className="logo">PayPilotPro</Link>
+    <header className="dashboard-header">
+      <div className="header-left">
+        <button 
+          className="mobile-menu-btn"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          {showMobileMenu ? <FaTimes /> : <FaBars />}
+        </button>
+        
+        <Link to="/dashboard" className="logo">
+          PayPilotPro
+        </Link>
+        
+        <h1 className="page-title">{getPageTitle()}</h1>
+      </div>
       
-      <div>{getPageTitle()}</div>
-      
-      <div className="search-bar">
-        <form onSubmit={handleSearch}>
-          <input 
-            type="text" 
-            placeholder="Search..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <div className="header-center">
+        <form onSubmit={handleSearch} className="search-form">
+          <div className="search-input-wrapper">
+            <FaSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
         </form>
       </div>
       
-      <div className="header-icons">
+      <div className="header-right">
         <div className="notification-wrapper" ref={notificationsRef}>
-          <span 
-            className="notification-icon" 
+          <button
+            className="header-icon-btn"
             onClick={() => setShowNotifications(!showNotifications)}
+            aria-label="Notifications"
           >
-            🔔
-          </span>
+            <FaBell />
+          </button>
           
           {showNotifications && (
             <div className="notification-dropdown">
@@ -115,70 +122,47 @@ const Header = () => {
                 <h3>Notifications</h3>
                 <button className="mark-all-read">Mark all as read</button>
               </div>
-              
               <div className="notification-list">
-                <div className="notification-item unread">
-                  <div className="notification-icon">📄</div>
-                  <div className="notification-content">
-                    <p>New driver application submitted</p>
-                    <span className="notification-time">2 hours ago</span>
-                  </div>
+                {/* Add notification items here */}
+                <div className="notification-empty">
+                  No new notifications
                 </div>
-                
-                <div className="notification-item">
-                  <div className="notification-icon">🚗</div>
-                  <div className="notification-content">
-                    <p>Vehicle inspection reminder for John Smith</p>
-                    <span className="notification-time">1 day ago</span>
-                  </div>
-                </div>
-                
-                <div className="notification-item">
-                  <div className="notification-icon">📊</div>
-                  <div className="notification-content">
-                    <p>Monthly report is ready to view</p>
-                    <span className="notification-time">3 days ago</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="notification-footer">
-                <Link to="/notifications">View all notifications</Link>
               </div>
             </div>
           )}
         </div>
         
         <div className="profile-wrapper" ref={profileMenuRef}>
-          <span 
-            className="profile-icon" 
+          <button
+            className="header-icon-btn"
             onClick={() => setShowProfileMenu(!showProfileMenu)}
+            aria-label="User menu"
           >
-            👤
-          </span>
+            <FaUser />
+          </button>
           
           {showProfileMenu && (
             <div className="profile-dropdown">
               <div className="profile-header">
                 <div className="profile-name">
-                  {currentUser.firstName} {currentUser.lastName}
+                  {currentUser?.displayName || 'User'}
                 </div>
-                <div className="profile-email">{currentUser.email}</div>
+                <div className="profile-email">{currentUser?.email}</div>
               </div>
               
               <div className="profile-menu">
                 <Link to="/profile" className="profile-menu-item">
-                  <span className="profile-menu-icon">👤</span>
+                  <FaUser className="menu-icon" />
                   <span>My Profile</span>
                 </Link>
                 
                 <Link to="/settings" className="profile-menu-item">
-                  <span className="profile-menu-icon">⚙️</span>
+                  <span className="menu-icon">⚙️</span>
                   <span>Settings</span>
                 </Link>
                 
                 <Link to="/help" className="profile-menu-item">
-                  <span className="profile-menu-icon">❓</span>
+                  <span className="menu-icon">❓</span>
                   <span>Help & Support</span>
                 </Link>
                 
@@ -188,7 +172,7 @@ const Header = () => {
                   className="profile-menu-item logout-button"
                   onClick={handleLogout}
                 >
-                  <span className="profile-menu-icon">🚪</span>
+                  <span className="menu-icon">🚪</span>
                   <span>Logout</span>
                 </button>
               </div>
@@ -196,7 +180,7 @@ const Header = () => {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

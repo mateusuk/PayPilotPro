@@ -1,0 +1,334 @@
+/* src/components/auth/styles.css */
+/* Styles for authentication pages: login, register, forgot password */
+
+/* Login Container */
+.login-container,
+.register-container,
+.password-reset-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #222636;
+}
+
+/* Form Section */
+.login-form,
+.register-form,
+.password-reset-form {
+  width: 50%;
+  background-color: #222636;
+  color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form h1,
+.register-form h1,
+.password-reset-form h1 {
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.login-greeting,
+.register-header,
+.password-reset-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.login-access h3,
+.register-header h3,
+.password-reset-header h3 {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+/* Form Controls */
+.form-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.form-control:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-bottom-color: var(--primary-color);
+  box-shadow: none;
+  outline: none;
+}
+
+label {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 0.9rem;
+}
+
+/* Welcome Section */
+.login-welcome,
+.register-welcome {
+  width: 50%;
+  background-color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.login-welcome h2,
+.register-welcome h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.login-welcome p,
+.register-welcome p {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Remember me and forgot password */
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.remember-me input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.forgot-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Links */
+.login-link,
+.register-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.login-link a,
+.register-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-link a:hover,
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Error Messages */
+.error-message {
+  background-color: rgba(224, 92, 92, 0.1);
+  color: #ff6b6b;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #ff6b6b;
+  font-size: 0.9rem;
+}
+
+/* Success Messages */
+.success-message {
+  background-color: rgba(101, 192, 122, 0.1);
+  color: #65c07a;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #65c07a;
+  font-size: 0.9rem;
+}
+
+/* Features List */
+.features-list {
+  margin-top: 2rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.feature-icon {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Terms Agreement */
+.terms-agreement {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.terms-agreement a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.terms-agreement a:hover {
+  text-decoration: underline;
+}
+
+/* Form Row */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group.half {
+  flex: 1;
+}
+
+/* Small Text */
+.form-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Password Reset Image Section */
+.password-reset-image {
+  width: 50%;
+  background-color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.password-reset-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.password-reset-content h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.password-reset-content p {
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Back to Login Link */
+.back-to-login {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.back-to-login a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-to-login a:hover {
+  text-decoration: underline;
+}
+
+/* Quote */
+.quote {
+  font-style: italic;
+  color: #666;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-container,
+  .register-container,
+  .password-reset-container {
+    flex-direction: column;
+  }
+
+  .login-form,
+  .register-form,
+  .password-reset-form,
+  .login-welcome,
+  .register-welcome,
+  .password-reset-image {
+    width: 100%;
+    padding: 2rem;
+  }
+
+  .login-welcome,
+  .register-welcome,
+  .password-reset-image {
+    order: -1;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+} 
