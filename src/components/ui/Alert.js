@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../../styles/ui.css';
 
 const Alert = ({ message, type = 'info', onClose, autoClose = false, autoCloseTime = 5000 }) => {
   const [isVisible, setIsVisible] = useState(true);
+
+  const handleClose = useCallback(() => {
+    setIsVisible(false);
+    if (onClose) onClose();
+  }, [onClose]);
 
   // Handle auto close
   useEffect(() => {
@@ -17,12 +22,7 @@ const Alert = ({ message, type = 'info', onClose, autoClose = false, autoCloseTi
     return () => {
       if (timer) clearTimeout(timer);
     };
-  }, [autoClose, autoCloseTime, isVisible]);
-
-  const handleClose = () => {
-    setIsVisible(false);
-    if (onClose) onClose();
-  };
+  }, [autoClose, autoCloseTime, isVisible, handleClose]);
 
   if (!isVisible) return null;
 

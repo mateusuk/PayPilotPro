@@ -11,8 +11,6 @@ import {
   updateDoc, 
   deleteDoc,
   query,
-  where,
-  orderBy,
   onSnapshot,
   serverTimestamp
 } from 'firebase/firestore';

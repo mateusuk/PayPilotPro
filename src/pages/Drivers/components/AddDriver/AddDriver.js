@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDrivers } from '../../context/DriversContext';
 import Modal from '../../../../components/ui/Modal';
 import Alert from '../../../../components/ui/Alert';
@@ -24,6 +24,17 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
   const roles = ['Driver', 'Lead Driver', 'Supervisor'];
   const locations = ['Crawley', 'London', 'Manchester', 'Birmingham', 'Leeds'];
 
+  const resetForm = useCallback(() => {
+    setEmail('');
+    setFirstName('');
+    setLastName('');
+    setPhone('');
+    setCustomer('');
+    setRole('Driver');
+    setLocation('');
+    clearError();
+  }, [clearError]);
+
   // Reset form when modal is opened/closed
   useEffect(() => {
     if (isOpen) {
@@ -31,7 +42,7 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
     } else {
       resetForm();
     }
-  }, [isOpen, clearError]);
+  }, [isOpen, clearError, resetForm]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -63,17 +74,6 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
     };
   }, [isOpen, onClose]);
   
-  const resetForm = () => {
-    setEmail('');
-    setFirstName('');
-    setLastName('');
-    setPhone('');
-    setCustomer('');
-    setRole('Driver');
-    setLocation('');
-    clearError();
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
