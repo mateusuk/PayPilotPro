@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import DriverList from './components/DriverList';
@@ -43,6 +43,8 @@ const DriverEngagementPage = () => (
 );
 
 const Drivers = () => {
+  const location = useLocation();
+
   return (
     <>
       <Helmet>

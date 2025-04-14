@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDrivers } from '../../context/DriversContext';
 import AddDriver from '../AddDriver/AddDriver';
-import Modal from '../../../../components/ui/Modal';
-import { useAuth } from '../../../../contexts/AuthContext';
+import { Table } from 'react-bootstrap';
+import DriverListItem from './DriverListItem';
 import '../../styles/drivers.css';
 import './DriverList.css';
 

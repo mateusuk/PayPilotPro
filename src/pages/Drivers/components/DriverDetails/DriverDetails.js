@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDrivers } from '../../context/DriversContext';
 import Loader from '../../../../components/ui/Loader';
-import Alert from '../../../../components/ui/Alert';
 import '../../styles/drivers.css';
 import './DriverDetails.css';
 
 const DriverDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { getDriverById, uploadDriverDocument, error } = useDrivers();
   const [driver, setDriver] = useState(null);
   const [loading, setLoading] = useState(true);
