@@ -23,6 +23,7 @@ module.exports = {
     'no-undef': 'error',
     'react/react-in-jsx-scope': 'off',
     'no-restricted-globals': ['error', 'event', 'fdescribe'],
+    'react/no-unescaped-entities': 'off'
   },
   settings: {
     react: {

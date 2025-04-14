@@ -72,8 +72,10 @@ const ForgotPassword = () => {
             {loading ? 'Sending...' : 'Reset Password'}
           </button>
           
-          <div className="back-to-login">
-            Remembered your password? <Link to="/login">Back to Login</Link>
+          <div className="text-center mt-3">
+            <p>
+              Remember your password? <Link to="/login">Log in</Link>
+            </p>
           </div>
         </form>
       </div>
