@@ -1,58 +1,45 @@
 .add-driver-container {
-  padding: 1.5rem;
+  padding: 16px;
 }
 
 .modal-subtitle {
-  color: #6b7280;
-  font-size: 0.875rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #666;
 }
 
 .driver-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
+  gap: 16px;
 }
 
 .form-row {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  display: flex;
+  gap: 16px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .form-group label {
-  font-size: 0.875rem;
+  font-size: 14px;
+  margin-bottom: 8px;
   font-weight: 500;
-  color: #374151;
 }
 
 .form-control {
-  padding: 0.625rem 0.875rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  color: #111827;
-  background: #ffffff;
-  transition: all 0.2s ease;
-  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-.form-control:hover {
-  border-color: #d1d5db;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+.form-group.half {
+  flex: 1;
 }
 
 /* Dropdown styles */
@@ -62,148 +49,184 @@
 
 .dropdown-toggle {
   width: 100%;
-  padding: 0.625rem 0.875rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #ffffff;
-  color: #111827;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s ease;
 }
 
-.dropdown-toggle:hover {
-  border-color: #d1d5db;
+.dropdown-toggle.amazon {
+  border-color: #ff9900;
+  background-color: rgba(255, 153, 0, 0.1);
 }
 
 .dropdown-toggle::after {
   content: "▼";
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-left: 0.5rem;
-  transition: transform 0.2s ease;
-}
-
-.dropdown-toggle:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.dropdown-toggle.amazon {
-  background-color: #ff9900;
-  color: #000;
-  border-color: #e68a00;
+  font-size: 10px;
+  margin-left: 8px;
 }
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 4px);
+  top: 100%;
   left: 0;
-  width: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  z-index: 1000;
+  margin-top: 4px;
   max-height: 200px;
   overflow-y: auto;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
 }
 
 .dropdown-item {
-  padding: 0.625rem 0.875rem;
+  padding: 8px 12px;
   cursor: pointer;
-  font-size: 0.875rem;
-  color: #374151;
-  transition: all 0.2s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #f3f4f6;
-  color: #111827;
+  background-color: #f5f5f5;
 }
 
 .dropdown-item.selected {
-  background-color: #2563eb;
-  color: #ffffff;
+  background-color: rgba(59, 130, 246, 0.1);
+  font-weight: 500;
 }
 
-/* Form actions */
+/* Button styles */
 .form-actions {
-  display: grid;
-  grid-template-columns: 140px 140px;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
 }
 
-/* Estilos específicos para botões dentro do modal */
-.form-actions .btn {
+.btn {
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-primary:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading spinner in button */
+.loading-spinner-small {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(34, 197, 94, 0.3);
+  border-radius: 50%;
+  border-top-color: #22c55e;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success Screen Styles */
+.invitation-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.success-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #10b981;
+  color: white;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 140px;
-  height: 42px;
-  padding: 0;
+  font-size: 30px;
+  margin-bottom: 16px;
+}
+
+.invitation-success h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.invitation-success p {
+  color: #6b7280;
+  margin-bottom: 24px;
+  max-width: 400px;
+}
+
+.access-number-box {
+  background-color: #f3f4f6;
   border-radius: 8px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 0;
-  border: 1px solid transparent;
-  box-sizing: border-box;
-  flex-shrink: 0;
+  padding: 16px;
+  width: 100%;
+  margin-bottom: 24px;
 }
 
-.form-actions .btn:first-child {
-  justify-self: start;
+.access-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 4px;
 }
 
-.form-actions .btn:last-child {
-  justify-self: end;
+.access-value {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #111827;
+  margin-bottom: 8px;
 }
 
-.form-actions .btn-primary {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+.access-instruction {
+  font-size: 13px;
+  color: #6b7280;
 }
 
-.form-actions .btn-primary:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.form-actions .btn-secondary {
-  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-  color: white;
-  border: none;
-  box-shadow: 0 2px 4px rgba(71, 85, 105, 0.1);
-}
-
-.form-actions .btn-secondary:hover {
-  background: linear-gradient(135deg, #475569 0%, #334155 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(71, 85, 105, 0.2);
-}
-
-.form-actions .btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
+.invitation-success .form-actions {
+  justify-content: center;
 }
 
 /* Dark mode support */
@@ -264,38 +287,36 @@
     background-color: #3b82f6;
   }
 
-  .form-actions {
-    border-top-color: #374151;
+  .btn-primary {
+    background-color: #3b82f6;
   }
 
-  .form-actions .btn-secondary {
-    background-color: #334155;
+  .btn-primary:hover {
+    background-color: #2563eb;
+  }
+
+  .btn-primary:disabled {
+    background-color: #6b7280;
+  }
+
+  .btn-secondary {
+    background-color: #4b5563;
     color: #f1f5f9;
-    border-color: #475569;
   }
 
-  .form-actions .btn-secondary:hover {
-    background-color: #475569;
-    border-color: #64748b;
+  .btn-secondary:hover {
+    background-color: #64748b;
   }
-
-  .form-actions .btn-primary {
-    background-color: var(--primary-color);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  
+  .access-number-box {
+    background-color: #1f2937;
   }
-
-  .form-actions .btn-primary:hover {
-    background-color: var(--primary-dark);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  
+  .access-label, .access-instruction {
+    color: #9ca3af;
   }
-
-  .form-actions .btn-secondary {
-    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
-    box-shadow: 0 2px 4px rgba(148, 163, 184, 0.1);
-  }
-
-  .form-actions .btn-secondary:hover {
-    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.2);
+  
+  .access-value {
+    color: #f3f4f6;
   }
 } 

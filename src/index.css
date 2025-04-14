@@ -1,0 +1,35 @@
+/* Garantindo que links de navegação do React Router não usem azul padrão */
+a.driver-tab {
+  color: #5c5c5c !important;
+  text-decoration: none !important;
+}
+
+a.driver-tab.active {
+  color: #2c2c2c !important;
+}
+
+/* React Router NavLink */
+.active {
+  color: inherit;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  a.driver-tab {
+    color: #a0a0a0 !important;
+  }
+  
+  a.driver-tab.active {
+    color: #e1e1e1 !important;
+  }
+}
+
+/* Garantir que todos os botões primários sejam verdes */
+.btn-primary {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+.btn-primary:hover {
+  background-color: #388E3C !important;
+} 

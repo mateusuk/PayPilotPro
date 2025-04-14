@@ -1,0 +1,445 @@
+.driver-layout-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.driver-layout-container .dashboard-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.driver-layout-container .driver-header-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  padding: 16px 16px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.driver-layout-container .back-navigation {
+  margin-bottom: 12px;
+}
+
+.driver-layout-container .back-button {
+  display: inline-flex;
+  align-items: center;
+  color: #5c5c5c;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.driver-layout-container .back-button:hover {
+  color: #2c2c2c;
+  text-decoration: underline;
+}
+
+.driver-layout-container .back-icon {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.driver-layout-container .driver-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  padding-top: 24px;
+  position: relative;
+  transform: translateZ(0);
+  will-change: transform;
+  min-height: 300px;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.driver-layout-container .driver-profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: nowrap;
+}
+
+.driver-layout-container .driver-avatar {
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.driver-layout-container .avatar-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.driver-layout-container .avatar-icon {
+  font-size: 24px;
+}
+
+.driver-layout-container .driver-info {
+  flex: 1;
+  min-width: 0; /* Impede que o elemento cresça demais */
+}
+
+.driver-layout-container .driver-action-buttons {
+  margin-left: 16px;
+  flex-shrink: 0;
+  display: flex !important;
+  z-index: 999;
+  position: relative;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.driver-layout-container .driver-action-buttons button {
+  white-space: nowrap;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  height: 38px;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative;
+  z-index: 999;
+  font-size: 14px;
+  padding: 0 16px;
+}
+
+.driver-layout-container .driver-name {
+  margin: 0 0 4px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.driver-layout-container .driver-status {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.driver-layout-container .driver-tabs {
+  position: relative;
+  background-color: white;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  display: flex;
+  min-height: 48px;
+  border-bottom: 1px solid #e5e7eb;
+  overflow-x: visible;
+  z-index: 1;
+  transform: translateZ(0);
+  will-change: transform;
+  height: 48px;
+  box-sizing: border-box;
+  transition: none;
+  overscroll-behavior: none;
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.driver-layout-container .driver-tab {
+  padding: 10px 20px;
+  margin-right: 6px;
+  color: #5c5c5c;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+  height: 45px;
+  box-sizing: border-box;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.driver-layout-container .driver-tab:hover {
+  color: #2c2c2c;
+}
+
+.driver-layout-container .driver-tab.active {
+  color: #2c2c2c !important;
+  font-weight: 600;
+  border-bottom: 3px solid #3b82f6;
+}
+
+/* Remove tremulação durante o carregamento */
+.driver-layout-container .driver-content-scroll .loader-container {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos dos botões */
+.driver-layout-container .btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  min-width: 160px;
+  height: 38px;
+  /* Sem cor global para não afetar menus */
+}
+
+/* Definir cores específicas para os botões de ação */
+.driver-layout-container .driver-action-buttons .btn {
+  color: white !important;
+}
+
+/* Estilos específicos dos botões com cores explícitas */
+.driver-layout-container .btn-warning {
+  background-color: #f59e0b;
+}
+
+.driver-layout-container .btn-success {
+  background-color: #4CAF50;
+}
+
+.driver-layout-container .btn-danger {
+  background-color: #ef4444;
+}
+
+.driver-layout-container .btn-primary {
+  background-color: #4CAF50;
+  color: white !important;
+}
+
+/* Certificar que botões secundários não serão afetados */
+.driver-layout-container .btn-secondary,
+.driver-layout-container .btn-outline {
+  color: #5c5c5c !important;
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+/* Adicionar novamente os estilos hover que foram removidos */
+.driver-layout-container .btn-warning:hover {
+  background-color: #d97706;
+}
+
+.driver-layout-container .btn-success:hover {
+  background-color: #388E3C;
+}
+
+.driver-layout-container .btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.driver-layout-container .btn-primary:hover {
+  background-color: #388E3C;
+}
+
+.driver-layout-container .btn-secondary:hover,
+.driver-layout-container .btn-outline:hover {
+  background-color: #e5e7eb;
+  color: #2c2c2c !important;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .driver-layout-container .driver-header-fixed {
+    background-color: var(--surface-card, #1e1e1e);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .driver-layout-container .driver-tabs {
+    background-color: var(--surface-card, #1e1e1e);
+    border-bottom-color: #383838;
+  }
+  
+  .driver-layout-container .avatar-circle {
+    background-color: #2d2d2d;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .driver-layout-container .driver-name {
+    color: #e1e1e1;
+  }
+  
+  .driver-layout-container .driver-status {
+    color: #a0a0a0;
+  }
+  
+  .driver-layout-container .back-button {
+    color: #a0a0a0;
+  }
+  
+  .driver-layout-container .back-button:hover {
+    color: #e1e1e1;
+  }
+  
+  .driver-layout-container .driver-tab {
+    color: #a0a0a0;
+    border-bottom: none;
+  }
+  
+  .driver-layout-container .driver-tab:hover {
+    color: #e1e1e1;
+  }
+  
+  .driver-layout-container .driver-tab.active {
+    color: #e1e1e1 !important;
+    font-weight: 600;
+    border-bottom: 3px solid #3b82f6;
+  }
+
+  /* Certificar que os botões no modo dark tenham estilos apropriados */
+  .driver-layout-container .btn-secondary,
+  .driver-layout-container .btn-outline {
+    color: #e1e1e1 !important;
+    background-color: #334155;
+    border: 1px solid #475569;
+  }
+
+  .driver-layout-container .btn-secondary:hover,
+  .driver-layout-container .btn-outline:hover {
+    background-color: #475569;
+    color: #f3f4f6 !important;
+  }
+}
+
+.driver-layout-container .content-transition {
+  transition: opacity 0.15s ease;
+  animation: fadeIn 0.15s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+
+/* Adicionar estilo para o placeholder durante transições */
+.content-placeholder {
+  min-height: 300px;
+  background-color: rgba(247, 250, 252, 0.4);
+  border-radius: 8px;
+}
+
+/* Ajuste fino para a animação de transição */
+.content-transition {
+  transition: opacity 0.15s ease;
+  animation: fadeIn 0.15s ease-in;
+  min-height: 300px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+
+/* Evitar que elementos pulsem ou vibrem durante transições */
+.driver-tab {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Manter a altura da navegação de tabs consistente */
+.driver-tabs {
+  height: 48px;
+  box-sizing: border-box;
+  transition: none;
+}
+
+/* Suavizar a rolagem */
+.driver-content-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Melhorar a indicação visual da tab ativa */
+.driver-tab.active {
+  color: #2c2c2c !important;
+  font-weight: 600;
+  border-bottom: 3px solid #3b82f6;
+}
+
+/* Garantir que os botões na área de conteúdo usem a cor verde */
+.driver-content-scroll .btn-primary {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+.driver-content-scroll .btn-primary:hover {
+  background-color: #388E3C !important;
+}
+
+/* Manter botões de ação na área superior com cores originais */
+.driver-action-buttons .btn {
+  color: white !important;
+}
+
+.driver-action-buttons .btn-warning {
+  background-color: #f59e0b;
+}
+
+.driver-action-buttons .btn-warning:hover {
+  background-color: #d97706;
+}
+
+.driver-action-buttons .btn-success {
+  background-color: #4CAF50;
+}
+
+.driver-action-buttons .btn-success:hover {
+  background-color: #388E3C;
+}
+
+.driver-action-buttons .btn-danger {
+  background-color: #ef4444;
+}
+
+.driver-action-buttons .btn-danger:hover {
+  background-color: #dc2626;
+}
+
+/* Estilo para o container das tabs */
+.driver-layout-container .tabs-container {
+  width: 100%;
+  position: relative;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Dark mode para o container */
+@media (prefers-color-scheme: dark) {
+  .driver-layout-container .tabs-container {
+    background-color: var(--surface-card, #1e1e1e);
+    border-bottom-color: #383838;
+  }
+} 

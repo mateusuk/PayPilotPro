@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDrivers } from '../../context/DriversContext';
+import { sendDriverAccessCode } from '../../../../services/emailService';
 import Modal from '../../../../components/ui/Modal';
 import Alert from '../../../../components/ui/Alert';
 import './AddDriver.css';
@@ -16,33 +17,34 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [accessNumber, setAccessNumber] = useState('');
+  const [inviteSent, setInviteSent] = useState(false);
+  const [error, setError] = useState('');
   
-  const { addDriver, error, clearError } = useDrivers();
-
-  // Sample data for dropdowns
-  const customers = ['Amazon', 'DHL', 'Royal Mail', 'UPS', 'FedEx'];
-  const roles = ['Driver', 'Lead Driver', 'Supervisor'];
-  const locations = ['Crawley', 'London', 'Manchester', 'Birmingham', 'Leeds'];
-
-  const resetForm = useCallback(() => {
-    setEmail('');
-    setFirstName('');
-    setLastName('');
-    setPhone('');
-    setCustomer('');
-    setRole('Driver');
-    setLocation('');
-    clearError();
-  }, [clearError]);
+  const { addDriver, loading: contextLoading, error: contextError } = useDrivers();
 
   // Reset form when modal is opened/closed
   useEffect(() => {
     if (isOpen) {
-      clearError();
+      setError('');
+      setInviteSent(false);
+      setAccessNumber('');
     } else {
       resetForm();
     }
-  }, [isOpen, clearError, resetForm]);
+  }, [isOpen]);
+
+  // Sync with context error
+  useEffect(() => {
+    if (contextError) {
+      setError(contextError);
+    }
+  }, [contextError]);
+
+  // Sync with context loading
+  useEffect(() => {
+    setLoading(contextLoading);
+  }, [contextLoading]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -74,6 +76,28 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
     };
   }, [isOpen, onClose]);
   
+  const resetForm = () => {
+    setEmail('');
+    setFirstName('');
+    setLastName('');
+    setPhone('');
+    setCustomer('');
+    setRole('Driver');
+    setLocation('');
+    setInviteSent(false);
+    setAccessNumber('');
+    setError('');
+  };
+
+  const clearError = () => {
+    setError('');
+  };
+
+  const generateAccessNumber = () => {
+    const randomNum = Math.floor(10000000 + Math.random() * 90000000);
+    return randomNum.toString().substring(0, 8);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -81,12 +105,13 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
       setLoading(true);
       clearError();
       
-      // Validate form
       if (!email || !firstName || !lastName || !phone || !customer || !role || !location) {
         throw new Error('Please fill in all fields');
       }
       
-      // Create driver object
+      const newAccessNumber = generateAccessNumber();
+      setAccessNumber(newAccessNumber);
+      
       const driverData = {
         email,
         firstName,
@@ -95,32 +120,23 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
         customer,
         role,
         location,
-        accessNumber: generateAccessNumber(),
-        status: 'pending',
-        createdAt: new Date().toISOString()
+        accessNumber: newAccessNumber,
+        status: 'invited',
       };
       
-      // Add driver to database
       const newDriver = await addDriver(driverData);
+      await sendDriverAccessCode(email, firstName, newAccessNumber);
+      setInviteSent(true);
       
-      // Reset form and close modal
-      resetForm();
-      onClose();
-      
-      // Notify parent component
       if (onDriverAdded) {
         onDriverAdded(newDriver);
       }
     } catch (err) {
       console.error('Error adding driver:', err);
+      setError(err.message || 'Failed to add driver');
     } finally {
       setLoading(false);
     }
-  };
-  
-  // Generate random access number
-  const generateAccessNumber = () => {
-    return String(Math.floor(1000000 + Math.random() * 9000000));
   };
   
   const handleCustomerSelect = (selected) => {
@@ -137,6 +153,39 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
     setLocation(selected);
     setLocationDropdownOpen(false);
   };
+
+  if (inviteSent) {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose} title="Driver Invitation Sent">
+        <div className="add-driver-container">
+          <div className="invitation-success">
+            <div className="success-icon">✓</div>
+            <h3>Driver invitation sent successfully!</h3>
+            <p>The driver will receive an email with instructions to download the app and register their account.</p>
+            
+            <div className="access-number-box">
+              <p className="access-label">Access Number:</p>
+              <p className="access-value">{accessNumber}</p>
+              <p className="access-instruction">The driver will need this number to register their account in the mobile app.</p>
+            </div>
+            
+            <div className="form-actions">
+              <button 
+                type="button" 
+                className="btn btn-primary" 
+                onClick={() => {
+                  resetForm();
+                  onClose();
+                }}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    );
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Add a new driver">
@@ -208,7 +257,7 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
               
               {customerDropdownOpen && (
                 <div className="dropdown-menu">
-                  {customers.map((item) => (
+                  {['Amazon', 'DHL', 'Royal Mail', 'UPS', 'FedEx'].map((item) => (
                     <div 
                       key={item} 
                       className={`dropdown-item ${item === customer ? 'selected' : ''}`}
@@ -235,7 +284,7 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
               
               {roleDropdownOpen && (
                 <div className="dropdown-menu">
-                  {roles.map((item) => (
+                  {['Driver', 'Lead Driver', 'Supervisor'].map((item) => (
                     <div 
                       key={item} 
                       className={`dropdown-item ${item === role ? 'selected' : ''}`}
@@ -262,7 +311,7 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
               
               {locationDropdownOpen && (
                 <div className="dropdown-menu">
-                  {locations.map((item) => (
+                  {['London', 'Manchester', 'Birmingham', 'Leeds', 'Crawley'].map((item) => (
                     <div 
                       key={item} 
                       className={`dropdown-item ${item === location ? 'selected' : ''}`}
@@ -290,7 +339,12 @@ const AddDriver = ({ isOpen, onClose, onDriverAdded }) => {
               className="btn btn-primary"
               disabled={loading}
             >
-              {loading ? 'Adding...' : 'Add Driver'}
+              {loading ? (
+                <>
+                  <span className="loading-spinner-small"></span>
+                  <span>Sending Invitation...</span>
+                </>
+              ) : 'Invite Driver'}
             </button>
           </div>
         </form>

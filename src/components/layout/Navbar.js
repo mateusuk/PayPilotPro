@@ -1,11 +1,12 @@
 // src/components/layout/Navbar.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { currentUser, logout } = useAuth();
+  const location = useLocation();
 
   // Toggle mobile menu
   const toggleMobileMenu = () => {

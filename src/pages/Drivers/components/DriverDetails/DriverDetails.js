@@ -9,12 +9,10 @@ import './DriverDetails.css';
 const DriverDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getDriverById, updateDriver, uploadDriverDocument, error } = useDrivers();
+  const { getDriverById, uploadDriverDocument, error } = useDrivers();
   const [driver, setDriver] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
-  const [confirmOffboard, setConfirmOffboard] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
   
   // Fetch driver details
   useEffect(() => {
@@ -32,29 +30,6 @@ const DriverDetails = () => {
     
     fetchDriverDetails();
   }, [id, getDriverById]);
-  
-  const handleOffboardDriver = async () => {
-    if (!confirmOffboard) {
-      setConfirmOffboard(true);
-      return;
-    }
-    
-    try {
-      await updateDriver(id, { 
-        status: 'inactive', 
-        offboardedAt: new Date().toISOString(),
-        offboardReason: 'Manual offboard by admin'
-      });
-      setSuccessMessage('Driver has been successfully offboarded');
-      setTimeout(() => {
-        navigate('/drivers?tab=inactive');
-      }, 2000);
-    } catch (err) {
-      console.error('Error offboarding driver:', err);
-    } finally {
-      setConfirmOffboard(false);
-    }
-  };
   
   const handleDocumentUpload = async (event, documentType) => {
     const file = event.target.files[0];
@@ -78,8 +53,6 @@ const DriverDetails = () => {
           }
         }
       }));
-      
-      setSuccessMessage('Document uploaded successfully');
     } catch (err) {
       console.error('Error uploading document:', err);
     } finally {
@@ -102,46 +75,8 @@ const DriverDetails = () => {
   }
   
   return (
-    <div className="dashboard-content">
-      <div className="back-navigation">
-        <Link to="/drivers" className="back-button">
-          <span className="back-icon">←</span> Back to All Drivers
-        </Link>
-      </div>
-      
-      <div className="driver-profile-header">
-        <div className="driver-avatar">
-          <div className="avatar-circle">
-            <span className="avatar-icon">👤</span>
-          </div>
-        </div>
-        <div className="driver-info">
-          <h2 className="driver-name">{driver.firstName} {driver.lastName}</h2>
-          <p className="driver-status">
-            Driver status: <span className={`status-${driver.status}`}>{driver.status}</span> - 
-            Access number: {driver.accessNumber || '0000000'}
-          </p>
-        </div>
-        <div className="driver-actions">
-          <button 
-            className={`btn ${confirmOffboard ? 'btn-danger' : 'btn-warning'}`}
-            onClick={handleOffboardDriver}
-          >
-            {confirmOffboard ? 'Confirm Offboard' : 'Offboard driver'}
-          </button>
-        </div>
-      </div>
-      
+    <>
       {error && <Alert message={error} type="error" />}
-      {successMessage && <Alert message={successMessage} type="success" autoClose />}
-      
-      <div className="driver-tabs">
-        <Link to={`/drivers/${id}`} className="driver-tab active">Personal Details</Link>
-        <Link to={`/drivers/${id}/vehicle`} className="driver-tab">Vehicle</Link>
-        <Link to={`/drivers/${id}/financial`} className="driver-tab">Financial Details</Link>
-        <Link to={`/drivers/${id}/incidents`} className="driver-tab">Incidents</Link>
-        <Link to={`/drivers/${id}/engagement`} className="driver-tab">Engagement Details</Link>
-      </div>
       
       <div className="details-section">
         <div className="section-header">
@@ -286,7 +221,7 @@ const DriverDetails = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

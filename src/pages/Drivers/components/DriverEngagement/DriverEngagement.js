@@ -98,7 +98,7 @@ const DriverEngagement = () => {
   }
 
   return (
-    <div className="engagement-details">
+    <>
       {successMessage && <Alert message={successMessage} type="success" autoClose />}
       
       <div className="engagement-header">
@@ -265,7 +265,7 @@ const DriverEngagement = () => {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -3,6 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DriversProvider } from './pages/Drivers/context/DriversContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import EmailTest from './components/test/EmailTest';
 
 // Layout components
 import Header from './components/layout/Header';
@@ -33,21 +35,6 @@ import Loader from './components/ui/Loader';
 import './styles/index.css';
 import './styles/dashboard.css';
 import './styles/ui.css';
-
-// Protected route wrapper
-const ProtectedRoute = ({ children }) => {
-  const { currentUser, loading } = useAuth();
-  
-  if (loading) {
-    return <Loader fullScreen text="Loading..." />;
-  }
-  
-  if (!currentUser) {
-    return <Navigate to="/login" />;
-  }
-  
-  return children;
-};
 
 // Public routes wrapper (accessible only when not logged in)
 const PublicRoute = ({ children }) => {
@@ -101,6 +88,7 @@ function App() {
               <ForgotPassword />
             </PublicRoute>
           } />
+          <Route path="/test-email" element={<EmailTest />} />
           
           {/* Protected routes with dashboard layout */}
           <Route path="/dashboard" element={
@@ -112,7 +100,7 @@ function App() {
           } />
           
           {/* Drivers routes */}
-          <Route path="/drivers" element={
+          <Route path="/drivers/*" element={
             <ProtectedRoute>
               <DashboardLayout>
                 <DriversProvider>
@@ -159,6 +147,15 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <Settings />
+              </DashboardLayout>
+            </ProtectedRoute>
+          } />
+          
+          {/* Test route - should be removed in production */}
+          <Route path="/test-email" element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <EmailTest />
               </DashboardLayout>
             </ProtectedRoute>
           } />

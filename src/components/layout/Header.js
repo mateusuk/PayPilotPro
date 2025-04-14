@@ -87,8 +87,6 @@ const Header = () => {
         <Link to="/dashboard" className="logo">
           PayPilotPro
         </Link>
-        
-        <h1 className="page-title">{getPageTitle()}</h1>
       </div>
       
       <div className="header-center">

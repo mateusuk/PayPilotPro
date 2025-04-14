@@ -1,8 +1,21 @@
 .incidents-container {
+  width: 100%;
   padding: 1.5rem;
-  background: var(--surface-card);
+  background: #ffffff;
   border-radius: 8px;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.7;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .incidents-header {
@@ -22,18 +35,18 @@
 .incident-search {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
-  border: 1px solid var(--surface-border);
+  border: 1px solid #e5e7eb;
   border-radius: 4px;
   font-size: 0.875rem;
-  background: var(--surface-ground);
-  color: var(--text-color);
+  background: #f9fafb;
+  color: #1f2937;
   transition: all 0.2s;
 }
 
 .incident-search:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--primary-color-alpha);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
 
 .search-icon {
@@ -41,12 +54,24 @@
   left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-color-secondary);
+  color: #6b7280;
   font-size: 1rem;
 }
 
 .create-incident-btn {
   white-space: nowrap;
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.create-incident-btn:hover {
+  background-color: #2563eb;
 }
 
 /* Table styles */
@@ -54,6 +79,19 @@
   overflow-x: auto;
   margin: 0 -1.5rem;
   padding: 0 1.5rem;
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0.8;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .incidents-table {
@@ -66,20 +104,20 @@
 .incidents-table td {
   padding: 1rem;
   text-align: left;
-  border-bottom: 1px solid var(--surface-border);
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .incidents-table th {
   font-weight: 600;
-  color: var(--text-color);
-  background: var(--surface-section);
+  color: #1f2937;
+  background: #f9fafb;
   position: sticky;
   top: 0;
   z-index: 1;
 }
 
 .incidents-table tr:hover {
-  background: var(--surface-hover);
+  background: #f3f4f6;
 }
 
 .status-badge {
@@ -92,23 +130,23 @@
 }
 
 .status-pending {
-  background: var(--yellow-100);
-  color: var(--yellow-700);
+  background: #fef3c7;
+  color: #92400e;
 }
 
 .status-investigating {
-  background: var(--blue-100);
-  color: var(--blue-700);
+  background: #dbeafe;
+  color: #1e40af;
 }
 
 .status-resolved {
-  background: var(--green-100);
-  color: var(--green-700);
+  background: #d1fae5;
+  color: #065f46;
 }
 
 .no-data-message {
   text-align: center;
-  color: var(--text-color-secondary);
+  color: #6b7280;
   font-style: italic;
   padding: 2rem !important;
 }
@@ -128,23 +166,23 @@
 
 .form-group label {
   font-weight: 500;
-  color: var(--text-color);
+  color: #1f2937;
 }
 
 .form-control {
   padding: 0.75rem;
-  border: 1px solid var(--surface-border);
+  border: 1px solid #e5e7eb;
   border-radius: 4px;
   font-size: 0.875rem;
-  background: var(--surface-ground);
-  color: var(--text-color);
+  background: #f9fafb;
+  color: #1f2937;
   transition: all 0.2s;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--primary-color-alpha);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
 
 .textarea {
@@ -177,26 +215,145 @@
   gap: 1rem;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--surface-border);
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-secondary {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db;
 }
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .incidents-container {
-    background: var(--surface-card);
+    background: #1e1e1e;
   }
 
   .incident-search {
-    background: var(--surface-ground);
-    color: var(--text-color);
+    background: #2d2d2d;
+    color: #e5e7eb;
+    border-color: #4b5563;
   }
 
   .incidents-table th {
-    background: var(--surface-section);
+    background: #2d2d2d;
+    color: #e5e7eb;
+  }
+
+  .incidents-table td {
+    border-color: #4b5563;
+  }
+
+  .incidents-table tr:hover {
+    background: #374151;
   }
 
   .form-control {
-    background: var(--surface-ground);
-    color: var(--text-color);
+    background: #2d2d2d;
+    color: #e5e7eb;
+    border-color: #4b5563;
   }
+
+  .form-group label {
+    color: #e5e7eb;
+  }
+
+  .modal-actions {
+    border-color: #4b5563;
+  }
+
+  .btn-secondary {
+    background-color: #4b5563;
+    color: #e5e7eb;
+  }
+
+  .btn-secondary:hover {
+    background-color: #6b7280;
+  }
+
+  .no-data-message {
+    color: #9ca3af;
+  }
+}
+
+/* Driver Tabs */
+.driver-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.driver-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.driver-tab {
+  padding: 0.75rem 1rem;
+  color: var(--text-color-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.driver-tab:hover {
+  background: var(--surface-hover);
+  color: var(--text-color);
+}
+
+.driver-tab.active {
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+.driver-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.driver-tab:hover::after {
+  width: 100%;
+}
+
+.driver-tab.active::after {
+  width: 100%;
 } 

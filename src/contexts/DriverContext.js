@@ -10,8 +10,7 @@ import {
   updateDoc, 
   deleteDoc, 
   addDoc,
-  serverTimestamp,
-  orderBy
+  serverTimestamp
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebase/config';

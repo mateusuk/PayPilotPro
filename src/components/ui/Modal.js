@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import '../../styles/ui.css';
 
-const Modal = ({ isOpen, onClose, title, children, footer }) => {
+const Modal = ({ isOpen = true, onClose = () => {}, title = '', children, footer }) => {
   const modalRef = useRef(null);
 
   // Close on escape key press

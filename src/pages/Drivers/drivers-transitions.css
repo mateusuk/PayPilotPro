@@ -1,0 +1,72 @@
+/* Transições entre páginas */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Estilos para o conteúdo dentro das tabs */
+.driver-content-scroll {
+  animation: contentFadeIn 0.3s ease-in-out;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0.5;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para manter o conteúdo na mesma posição durante a transição */
+.dashboard-content,
+.financial-details,
+.incidents-container,
+.engagement-details {
+  position: relative;
+  width: 100%;
+}
+
+/* Estilos para manter as tabs na mesma posição durante a transição */
+.driver-tabs {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+  padding-top: 10px;
+}
+
+/* Faz com que apenas o conteúdo tenha a transição, não o header */
+.driver-layout-container .driver-content-scroll > * {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} 

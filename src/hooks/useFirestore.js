@@ -11,15 +11,15 @@ import {
   updateDoc, 
   deleteDoc,
   query,
+  where,
   onSnapshot,
   serverTimestamp
 } from 'firebase/firestore';
 
 /**
  * Custom hook for Firestore operations
- * 
- * @param {string} collectionName - The name of the Firestore collection
- * @returns {Object} Firestore operations and state
+ * @param {string} collectionName - Name of the Firestore collection
+ * @returns {Object} Firestore operations
  */
 const useFirestore = (collectionName) => {
   const [documents, setDocuments] = useState([]);
@@ -243,6 +243,37 @@ const useFirestore = (collectionName) => {
     }
   };
   
+  /**
+   * Get documents by a simple field query (convenience method)
+   * 
+   * @param {string} field - The field to query
+   * @param {string} operator - The query operator (==, >, <, etc.)
+   * @param {any} value - The value to compare against
+   * @returns {Promise<Array>} Array of documents matching the query
+   */
+  const getDocumentsByQuery = async (field, operator, value) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const q = query(collection(db, collectionName), where(field, operator, value));
+      const querySnapshot = await getDocs(q);
+      
+      const results = [];
+      querySnapshot.forEach((doc) => {
+        results.push({ id: doc.id, ...doc.data() });
+      });
+      
+      return results;
+    } catch (err) {
+      console.error(`Error getting documents by query from ${collectionName}:`, err);
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   // Return all functions and state
   return {
     documents,
@@ -250,6 +281,7 @@ const useFirestore = (collectionName) => {
     loading,
     getDocument,
     getDocuments,
+    getDocumentsByQuery,
     subscribeToQuery,
     addDocument,
     updateDocument,

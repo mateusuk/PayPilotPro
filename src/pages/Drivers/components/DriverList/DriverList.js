@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDrivers } from '../../context/DriversContext';
 import AddDriver from '../AddDriver/AddDriver';
+import Modal from '../../../../components/ui/Modal';
+import { useAuth } from '../../../../contexts/AuthContext';
 import '../../styles/drivers.css';
 import './DriverList.css';
 
 const DriverList = () => {
-  const { getDriversByStatus } = useDrivers();
+  const { getDriversByStatus, updateDriver } = useDrivers();
+  const navigate = useNavigate();
   const [showAddModal, setShowAddModal] = useState(false);
   const [activeTab, setActiveTab] = useState('active');
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,10 +22,62 @@ const DriverList = () => {
   const [filteredDrivers, setFilteredDrivers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const applyFilters = useCallback((tab) => {
+    let driversToFilter = [];
+    switch (tab) {
+      case 'active':
+        driversToFilter = activeDrivers;
+        break;
+      case 'onboarding':
+        driversToFilter = onboardingDrivers;
+        break;
+      case 'inactive':
+        driversToFilter = inactiveDrivers;
+        break;
+      default:
+        driversToFilter = activeDrivers;
+    }
+
+    let filtered = [...driversToFilter];
+
+    if (searchTerm) {
+      filtered = filtered.filter(driver =>
+        driver.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        driver.email.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    if (customerFilter) {
+      filtered = filtered.filter(driver =>
+        driver.customer?.toLowerCase().includes(customerFilter.toLowerCase())
+      );
+    }
+
+    if (locationFilter) {
+      filtered = filtered.filter(driver =>
+        driver.location?.toLowerCase().includes(locationFilter.toLowerCase())
+      );
+    }
+
+    if (filterMissingPayment) {
+      filtered = filtered.filter(driver => !driver.paymentCompleted);
+    }
+
+    setFilteredDrivers(filtered);
+  }, [activeDrivers, onboardingDrivers, inactiveDrivers, searchTerm, customerFilter, locationFilter, filterMissingPayment]);
+
+  const navigateToDriverDetail = (driverId) => {
+    navigate(`/drivers/${driverId}`);
+  };
+
   // Função melhorada para carregar drivers
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setIsLoading(true);
+    setSearchTerm('');
+    setCustomerFilter('');
+    setLocationFilter('');
+    setFilterMissingPayment(false);
+    applyFilters(tab);
   };
 
   // Load drivers based on active tab com correção para o spinner
@@ -149,54 +204,66 @@ const DriverList = () => {
     </tr>
   );
 
-  const renderActiveDriversTable = () => (
-    <table className="drivers-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th className="email-column">Email</th>
-          <th className="contact-column">Contact</th>
-          <th>Location</th>
-          <th>Customer</th>
-          <th>Product</th>
-        </tr>
-      </thead>
-      <tbody>
-        {isLoading ? (
-          renderLoadingSpinner()
-        ) : filteredDrivers.length > 0 ? (
-          filteredDrivers.map(driver => (
-            <tr key={driver.id}>
-              <td className="driver-id">{driver.accessNumber || '00000'}</td>
-              <td>
-                <Link to={`/drivers/${driver.id}`} className="driver-link">
-                  {driver.firstName} {driver.lastName}
-                </Link>
-              </td>
-              <td className="driver-email email-column">{driver.email}</td>
-              <td className="driver-contact contact-column">
-                {driver.phone || <span className="na-value">N/A</span>}
-              </td>
-              <td className="driver-location">
-                {driver.location || <span className="na-value">N/A</span>}
-              </td>
-              <td className="driver-customer">
-                {driver.customer || <span className="na-value">N/A</span>}
-              </td>
-              <td className="driver-product">PayPilot-Premium</td>
-            </tr>
-          ))
-        ) : (
+  const renderActiveDriversTable = () => {
+    return (
+      <table className="drivers-table">
+        <thead>
           <tr>
-            <td colSpan="7" className="no-data-message">
-              No drivers found matching your filters.
-            </td>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Customer</th>
+            <th>Location</th>
+            <th>Last Active</th>
+            <th>Created</th>
           </tr>
-        )}
-      </tbody>
-    </table>
-  );
+        </thead>
+        <tbody>
+          {activeDrivers.map((driver) => {
+            let formattedCreatedAt = 'N/A';
+            try {
+              if (driver.createdAt) {
+                const createdDate = driver.createdAt.toDate ? 
+                  driver.createdAt.toDate() : 
+                  new Date(driver.createdAt);
+                formattedCreatedAt = createdDate.toLocaleDateString();
+              }
+            } catch (error) {
+              console.error("Error formatting date:", error);
+            }
+            
+            let formattedLastActive = 'N/A';
+            try {
+              if (driver.lastActive) {
+                const lastActiveDate = driver.lastActive.toDate ? 
+                  driver.lastActive.toDate() : 
+                  new Date(driver.lastActive);
+                formattedLastActive = lastActiveDate.toLocaleDateString();
+              }
+            } catch (error) {
+              console.error("Error formatting last active date:", error);
+            }
+
+            return (
+              <tr
+                key={driver.id}
+                onClick={() => navigateToDriverDetail(driver.id)}
+                className="clickable-row"
+              >
+                <td>{driver.name || 'N/A'}</td>
+                <td>{driver.email || 'N/A'}</td>
+                <td>{driver.phone || 'N/A'}</td>
+                <td>{driver.customer?.name || 'Unassigned'}</td>
+                <td>{driver.location || 'N/A'}</td>
+                <td>{formattedLastActive}</td>
+                <td>{formattedCreatedAt}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  };
 
   const renderOnboardingDriversTable = () => (
     <table className="drivers-table onboarding-table">
@@ -217,61 +284,144 @@ const DriverList = () => {
         {isLoading ? (
           renderLoadingSpinner()
         ) : filteredDrivers.length > 0 ? (
-          filteredDrivers.map(driver => (
-            <tr key={driver.id}>
-              <td>
-                <Link to={`/drivers/${driver.id}`} className="driver-link">
-                  {driver.firstName} {driver.lastName}
-                </Link>
-              </td>
-              <td className="driver-date">
-                {driver.createdAt ? new Date(driver.createdAt).toLocaleDateString() : <span className="na-value">N/A</span>}
-              </td>
-              <td>{driver.appDownloaded ? 'yes' : 'no'}</td>
-              <td>{driver.interviewStatus || <span className="na-value">-</span>}</td>
-              <td className="check-cell">
-                {driver.toxicologyStatus === 'pass' ? (
-                  <>
-                    <span className="check-icon">✓</span>
-                    <span className="status-text">pass</span>
-                  </>
-                ) : (
-                  driver.toxicologyStatus || <span className="na-value">pending</span>
-                )}
-              </td>
-              <td className="check-cell">
-                {driver.backgroundStatus === 'pass' ? (
-                  <>
-                    <span className="check-icon">✓</span>
-                    <span className="status-text">pass</span>
-                  </>
-                ) : (
-                  driver.backgroundStatus || <span className="na-value">pending</span>
-                )}
-              </td>
-              <td className="check-cell">
-                {driver.inductionStatus === 'completed' ? (
-                  <>
-                    <span className="check-icon">✓</span>
-                    <span className="status-text">completed</span>
-                  </>
-                ) : (
-                  driver.inductionStatus || <span className="na-value">pending</span>
-                )}
-              </td>
-              <td className="driver-customer">
-                {driver.customer || <span className="na-value">N/A</span>}
-              </td>
-              <td>
-                <div className="onboarding-progress">
-                  <div 
-                    className="onboarding-progress-fill" 
-                    style={{ width: `${driver.onboardingProgress || 0}%` }}
-                  />
-                </div>
-              </td>
-            </tr>
-          ))
+          filteredDrivers.map(driver => {
+            // Calculate if all requirements are met
+            const appDownloaded = driver.appDownloaded || false;
+            const interviewStatus = driver.interviewStatus === 'yes' ? 'yes' : 'no';
+            const toxicologyStatus = driver.toxicologyStatus === 'yes' ? 'yes' : 'no';
+            const backgroundStatus = driver.backgroundStatus === 'yes' ? 'yes' : 'no';
+            const inductionStatus = driver.inductionStatus === 'yes' ? 'yes' : 'no';
+            
+            const allRequirementsMet = appDownloaded && 
+                                      interviewStatus === 'yes' && 
+                                      toxicologyStatus === 'yes' && 
+                                      backgroundStatus === 'yes' && 
+                                      inductionStatus === 'yes';
+            
+            // Format the date properly
+            let formattedDate = 'N/A';
+            try {
+              if (driver.createdAt) {
+                // Handle Firestore timestamp
+                if (typeof driver.createdAt === 'object' && driver.createdAt !== null) {
+                  if ('seconds' in driver.createdAt) {
+                    // Firestore timestamp
+                    formattedDate = new Date(driver.createdAt.seconds * 1000).toLocaleDateString();
+                  } else if (driver.createdAt instanceof Date) {
+                    // Regular Date object
+                    formattedDate = driver.createdAt.toLocaleDateString();
+                  }
+                } else if (typeof driver.createdAt === 'string') {
+                  // ISO date string
+                  formattedDate = new Date(driver.createdAt).toLocaleDateString();
+                } else if (typeof driver.createdAt === 'number') {
+                  // Unix timestamp in milliseconds
+                  formattedDate = new Date(driver.createdAt).toLocaleDateString();
+                }
+              }
+            } catch (e) {
+              console.error('Error formatting date:', e);
+              formattedDate = 'N/A';
+            }
+            
+            // Calculate progress
+            let progress = 0;
+            if (appDownloaded) progress += 20;
+            if (interviewStatus === 'yes') progress += 20;
+            if (toxicologyStatus === 'yes') progress += 20;
+            if (backgroundStatus === 'yes') progress += 20;
+            if (inductionStatus === 'yes') progress += 20;
+            
+            // If there's no progress value in the driver object, use the calculated one
+            const progressValue = driver.onboardingProgress || progress;
+            
+            return (
+              <tr key={driver.id} className="onboarding-row">
+                <td className="driver-name">
+                  {driver.firstName || ''} {driver.lastName || ''}
+                </td>
+                <td className="driver-date">{formattedDate}</td>
+                <td className="toggle-cell">
+                  <button 
+                    className={`status-toggle ${appDownloaded ? 'yes' : 'no'}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleAppDownloaded(driver.id, appDownloaded);
+                    }}
+                  >
+                    {appDownloaded ? 'yes' : 'no'}
+                  </button>
+                </td>
+                <td className="toggle-cell">
+                  <button 
+                    className={`status-toggle ${interviewStatus === 'yes' ? 'yes' : 'no'}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleOnboardingStatus(driver.id, 'interviewStatus', interviewStatus);
+                    }}
+                  >
+                    {interviewStatus}
+                  </button>
+                </td>
+                <td className="toggle-cell">
+                  <button 
+                    className={`status-toggle ${toxicologyStatus === 'yes' ? 'yes' : 'no'}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleOnboardingStatus(driver.id, 'toxicologyStatus', toxicologyStatus);
+                    }}
+                  >
+                    {toxicologyStatus}
+                  </button>
+                </td>
+                <td className="toggle-cell">
+                  <button 
+                    className={`status-toggle ${backgroundStatus === 'yes' ? 'yes' : 'no'}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleOnboardingStatus(driver.id, 'backgroundStatus', backgroundStatus);
+                    }}
+                  >
+                    {backgroundStatus}
+                  </button>
+                </td>
+                <td className="toggle-cell">
+                  <button 
+                    className={`status-toggle ${inductionStatus === 'yes' ? 'yes' : 'no'}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleOnboardingStatus(driver.id, 'inductionStatus', inductionStatus);
+                    }}
+                  >
+                    {inductionStatus}
+                  </button>
+                </td>
+                <td className="driver-customer">
+                  {driver.customer || <span className="na-value">N/A</span>}
+                </td>
+                <td className="progress-cell">
+                  <div className="onboarding-progress">
+                    <div 
+                      className="onboarding-progress-fill" 
+                      style={{ width: `${progressValue}%` }}
+                    />
+                  </div>
+                  {allRequirementsMet && (
+                    <button 
+                      className="activate-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveToActive(driver.id);
+                      }}
+                      title="Move to Active Drivers"
+                    >
+                      Activate
+                    </button>
+                  )}
+                </td>
+              </tr>
+            );
+          })
         ) : (
           <tr>
             <td colSpan="9" className="no-data-message">
@@ -282,6 +432,226 @@ const DriverList = () => {
       </tbody>
     </table>
   );
+
+  // Handle toggling onboarding status fields
+  const toggleOnboardingStatus = async (driverId, field, currentValue) => {
+    try {
+      // Toggle the current value
+      const newValue = currentValue === 'yes' ? 'no' : 'yes';
+      
+      console.log(`Toggling ${field} for driver ${driverId} from ${currentValue} to ${newValue}`);
+      
+      // Create update object with just the field to update
+      const updateObj = { [field]: newValue };
+      
+      // Always calculate progress when toggling status
+      // Get the driver from our local state
+      const driver = onboardingDrivers.find(d => d.id === driverId);
+      if (driver) {
+        // Calculate new progress based on current statuses plus the new change
+        const statuses = {
+          interviewStatus: field === 'interviewStatus' ? newValue : (driver.interviewStatus === 'yes' ? 'yes' : 'no'),
+          toxicologyStatus: field === 'toxicologyStatus' ? newValue : (driver.toxicologyStatus === 'yes' ? 'yes' : 'no'),
+          backgroundStatus: field === 'backgroundStatus' ? newValue : (driver.backgroundStatus === 'yes' ? 'yes' : 'no'), 
+          inductionStatus: field === 'inductionStatus' ? newValue : (driver.inductionStatus === 'yes' ? 'yes' : 'no'),
+          appDownloaded: driver.appDownloaded || false
+        };
+        
+        // Calculate progress percentage
+        let progress = 0;
+        if (statuses.appDownloaded) progress += 20;
+        if (statuses.interviewStatus === 'yes') progress += 20;
+        if (statuses.toxicologyStatus === 'yes') progress += 20;
+        if (statuses.backgroundStatus === 'yes') progress += 20;
+        if (statuses.inductionStatus === 'yes') progress += 20;
+        
+        updateObj.onboardingProgress = progress;
+        console.log(`New progress for driver ${driverId}: ${progress}%`);
+      }
+      
+      // Call the API to update the driver
+      const result = await updateDriver(driverId, updateObj);
+      console.log("Update result:", result);
+      
+      // Update local state
+      const updatedDrivers = onboardingDrivers.map(driver => {
+        if (driver.id === driverId) {
+          const updatedDriver = { 
+            ...driver, 
+            [field]: newValue, 
+            onboardingProgress: updateObj.onboardingProgress || driver.onboardingProgress 
+          };
+          console.log("Updated driver in state:", updatedDriver);
+          return updatedDriver;
+        }
+        return driver;
+      });
+      
+      setOnboardingDrivers(updatedDrivers);
+      
+      // If we're on the onboarding tab, also update filtered drivers
+      if (activeTab === 'onboarding') {
+        const updatedFiltered = filteredDrivers.map(driver => {
+          if (driver.id === driverId) {
+            return { 
+              ...driver, 
+              [field]: newValue, 
+              onboardingProgress: updateObj.onboardingProgress || driver.onboardingProgress 
+            };
+          }
+          return driver;
+        });
+        setFilteredDrivers(updatedFiltered);
+      }
+    } catch (error) {
+      console.error(`Error updating ${field}:`, error);
+      alert(`Failed to update ${field}. Please try again.`);
+    }
+  };
+
+  // Toggle app downloaded status
+  const toggleAppDownloaded = async (driverId, currentValue) => {
+    try {
+      const newValue = !currentValue;
+      
+      console.log(`Toggling appDownloaded for driver ${driverId} from ${currentValue} to ${newValue}`);
+      
+      // Create update object
+      const updateObj = { appDownloaded: newValue };
+      
+      // Always update progress
+      // Get the driver from our local state
+      const driver = onboardingDrivers.find(d => d.id === driverId);
+      if (driver) {
+        // Calculate new progress based on current statuses
+        const statuses = {
+          interviewStatus: driver.interviewStatus === 'yes' ? 'yes' : 'no',
+          toxicologyStatus: driver.toxicologyStatus === 'yes' ? 'yes' : 'no',
+          backgroundStatus: driver.backgroundStatus === 'yes' ? 'yes' : 'no', 
+          inductionStatus: driver.inductionStatus === 'yes' ? 'yes' : 'no',
+          appDownloaded: newValue
+        };
+        
+        // Calculate progress percentage
+        let progress = 0;
+        if (statuses.appDownloaded) progress += 20;
+        if (statuses.interviewStatus === 'yes') progress += 20;
+        if (statuses.toxicologyStatus === 'yes') progress += 20;
+        if (statuses.backgroundStatus === 'yes') progress += 20;
+        if (statuses.inductionStatus === 'yes') progress += 20;
+        
+        updateObj.onboardingProgress = progress;
+        console.log(`New progress for driver ${driverId}: ${progress}%`);
+      }
+      
+      // Call the API to update the driver
+      const result = await updateDriver(driverId, updateObj);
+      console.log("Update result:", result);
+      
+      // Update local state
+      const updatedDrivers = onboardingDrivers.map(driver => {
+        if (driver.id === driverId) {
+          const updatedDriver = {
+            ...driver, 
+            appDownloaded: newValue, 
+            onboardingProgress: updateObj.onboardingProgress || driver.onboardingProgress
+          };
+          console.log("Updated driver in state:", updatedDriver);
+          return updatedDriver;
+        }
+        return driver;
+      });
+      
+      setOnboardingDrivers(updatedDrivers);
+      
+      // If we're on the onboarding tab, also update filtered drivers
+      if (activeTab === 'onboarding') {
+        const updatedFiltered = filteredDrivers.map(driver => {
+          if (driver.id === driverId) {
+            return { 
+              ...driver, 
+              appDownloaded: newValue, 
+              onboardingProgress: updateObj.onboardingProgress || driver.onboardingProgress 
+            };
+          }
+          return driver;
+        });
+        setFilteredDrivers(updatedFiltered);
+      }
+    } catch (error) {
+      console.error('Error updating appDownloaded:', error);
+      alert('Failed to update app download status. Please try again.');
+    }
+  };
+
+  // Move driver from onboarding to active
+  const moveToActive = async (driverId) => {
+    try {
+      console.log(`Moving driver ${driverId} to active status`);
+      
+      // Get the driver from our local state
+      const driver = onboardingDrivers.find(d => d.id === driverId);
+      
+      if (driver) {
+        // Double-check that all required fields are "yes"
+        const appDownloaded = driver.appDownloaded || false;
+        const interviewStatus = driver.interviewStatus === 'yes' ? 'yes' : 'no';
+        const toxicologyStatus = driver.toxicologyStatus === 'yes' ? 'yes' : 'no';
+        const backgroundStatus = driver.backgroundStatus === 'yes' ? 'yes' : 'no'; 
+        const inductionStatus = driver.inductionStatus === 'yes' ? 'yes' : 'no';
+        
+        console.log("Driver status check:", {
+          appDownloaded,
+          interviewStatus,
+          toxicologyStatus,
+          backgroundStatus,
+          inductionStatus
+        });
+        
+        if (appDownloaded && 
+            interviewStatus === 'yes' && 
+            toxicologyStatus === 'yes' && 
+            backgroundStatus === 'yes' && 
+            inductionStatus === 'yes') {
+          
+          // Update driver status to active
+          const updateData = { 
+            status: 'active',
+            onboardingProgress: 100,
+            onboardingCompleted: true,
+            onboardingCompletedAt: new Date().toISOString()
+          };
+          
+          console.log("Updating driver with:", updateData);
+          const result = await updateDriver(driverId, updateData);
+          console.log("Update result:", result);
+          
+          // Remove from onboarding list
+          const updatedOnboarding = onboardingDrivers.filter(d => d.id !== driverId);
+          setOnboardingDrivers(updatedOnboarding);
+          
+          // Add to active list
+          const activeDriver = { ...driver, ...updateData };
+          setActiveDrivers(prev => [activeDriver, ...prev]);
+          
+          // Update filtered drivers if needed
+          if (activeTab === 'onboarding') {
+            setFilteredDrivers(prev => prev.filter(d => d.id !== driverId));
+          }
+          
+          alert(`Driver ${driver.firstName} ${driver.lastName} has been moved to active status.`);
+        } else {
+          alert("Cannot move to active. All requirements must be met: App Downloaded, Interview, Toxicology, Background, and Induction all need to be confirmed as 'yes'.");
+        }
+      } else {
+        console.error("Driver not found in onboarding list:", driverId);
+        alert("Driver not found. Please refresh the page and try again.");
+      }
+    } catch (error) {
+      console.error('Error moving driver to active:', error);
+      alert('Failed to move driver to active status. Please try again.');
+    }
+  };
 
   return (
     <div className="driver-section">
@@ -323,6 +693,8 @@ const DriverList = () => {
       </div>
 
       <div className="filter-section">
+        <h3 className="filter-heading">Driver Filters</h3>
+        
         <div className="driver-search">
           <input
             type="text"
@@ -330,11 +702,10 @@ const DriverList = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <span className="driver-search-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
-          </span>
+          <svg className="search-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </div>
 
         <div className="filter-options">

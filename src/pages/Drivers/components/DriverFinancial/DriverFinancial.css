@@ -1,7 +1,21 @@
 .financial-details {
+  width: 100%;
+  padding-top: 0;
   padding: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.7;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .financial-header {
@@ -38,7 +52,19 @@
   background: var(--card-bg);
   border-radius: 8px;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s ease;
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0.8;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .financial-section:hover {
@@ -60,9 +86,40 @@
   color: var(--text-primary);
 }
 
-.edit-btn {
+.section-header .edit-btn,
+.section-header .btn-secondary {
+  background-color: #4CAF50;
+  color: white !important;
+  border: none;
+  min-width: 120px;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.section-header .edit-btn:hover,
+.section-header .btn-secondary:hover {
+  background-color: #388E3C;
+  color: white !important;
+}
+
+/* Modo escuro para botões de edição */
+@media (prefers-color-scheme: dark) {
+  .section-header .edit-btn,
+  .section-header .btn-secondary {
+    background-color: #4CAF50;
+    color: white !important;
+    border: none;
+  }
+  
+  .section-header .edit-btn:hover,
+  .section-header .btn-secondary:hover {
+    background-color: #388E3C;
+    color: white !important;
+  }
 }
 
 .financial-details-grid {
@@ -115,8 +172,8 @@
 }
 
 .form-control:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px var(--primary-color-alpha);
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
   outline: none;
 }
 
@@ -157,5 +214,117 @@
 
   .form-control:focus {
     border-color: var(--primary-color);
+  }
+}
+
+/* Driver Tabs */
+.driver-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+  padding-bottom: 0.5rem;
+  overflow-x: visible;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Remover comportamentos de scroll */
+  overscroll-behavior: none;
+  scroll-behavior: auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.driver-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.driver-tab {
+  padding: 0.75rem 1rem;
+  color: var(--text-color-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  /* Evitar mudanças de layout */
+  transform: translateZ(0);
+  /* Evitar mudança de altura durante hover */
+  box-sizing: border-box;
+}
+
+.driver-tab:hover {
+  background: var(--surface-hover);
+  color: var(--text-color);
+}
+
+.driver-tab.active {
+  background: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+/* Simplificar o pseudo-elemento para evitar mudanças de layout */
+.driver-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+  /* Evitar que cause scroll */
+  transform: translateZ(0);
+}
+
+.driver-tab:hover::after {
+  width: 100%;
+}
+
+.driver-tab.active::after {
+  width: 100%;
+}
+
+.financial-sections .btn {
+  min-width: 120px;
+  height: auto;
+  color: inherit;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.financial-sections .btn-primary {
+  background-color: #4CAF50;
+  color: white !important;
+  border: none;
+}
+
+.financial-sections .btn-primary:hover {
+  background-color: #388E3C;
+}
+
+.financial-sections .btn-secondary {
+  background-color: #f3f4f6;
+  color: #5c5c5c !important;
+  border: 1px solid #e5e7eb;
+}
+
+.financial-sections .btn-secondary:hover {
+  background-color: #e5e7eb;
+  color: #2c2c2c !important;
+}
+
+/* Modo escuro específico para esses botões */
+@media (prefers-color-scheme: dark) {
+  .financial-sections .btn-secondary {
+    background-color: #334155;
+    color: #e1e1e1 !important;
+    border: 1px solid #475569;
+  }
+  
+  .financial-sections .btn-secondary:hover {
+    background-color: #475569;
+    color: #f3f4f6 !important;
   }
 } 

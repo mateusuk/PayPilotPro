@@ -1,0 +1,154 @@
+.deactivate-driver-container {
+  padding: 1.5rem;
+}
+
+.deactivate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.deactivate-warning {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  background-color: #fff3e0;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #ffcc80;
+}
+
+.warning-icon {
+  background-color: #ff9800;
+  color: white;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.deactivate-warning p {
+  margin: 0;
+  color: #e65100;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #334155;
+  font-size: 0.875rem;
+}
+
+.form-group textarea {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  resize: vertical;
+  min-height: 100px;
+  background-color: #f8fafc;
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.deactivate-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-cancel {
+  padding: 0.6rem 1.25rem;
+  background-color: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #e2e8f0;
+}
+
+.btn-deactivate {
+  padding: 0.6rem 1.25rem;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-deactivate:hover {
+  background-color: #dc2626;
+}
+
+.btn-deactivate:disabled,
+.btn-cancel:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .deactivate-warning {
+    background-color: rgba(255, 152, 0, 0.1);
+    border-color: #b45309;
+  }
+  
+  .deactivate-warning p {
+    color: #ffb74d;
+  }
+  
+  .warning-icon {
+    background-color: #d97706;
+  }
+  
+  .form-group label {
+    color: #e2e8f0;
+  }
+  
+  .form-group textarea {
+    background-color: #1e293b;
+    border-color: #475569;
+    color: #f1f5f9;
+  }
+  
+  .form-group textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+  
+  .btn-cancel {
+    background-color: #334155;
+    color: #e2e8f0;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #475569;
+  }
+} 

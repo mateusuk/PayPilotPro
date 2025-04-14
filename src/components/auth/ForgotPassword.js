@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { sendPasswordResetEmail } from '../../services/emailService';
 import './styles.css';
 
 const ForgotPassword = () => {
@@ -23,7 +24,11 @@ const ForgotPassword = () => {
       setMessage('');
       setLoading(true);
       
-      await resetPassword(email);
+      // Generate a password reset link
+      const resetLink = `${window.location.origin}/reset-password?email=${encodeURIComponent(email)}`;
+      
+      // Send password reset email using our custom service
+      await sendPasswordResetEmail(email, resetLink);
       
       setMessage('Check your email inbox for password reset instructions');
     } catch (err) {

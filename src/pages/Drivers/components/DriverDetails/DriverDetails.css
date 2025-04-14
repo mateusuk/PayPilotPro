@@ -1,95 +1,176 @@
 /* DriverDetails specific styles */
 .dashboard-content {
-  padding: 1.5rem;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.7;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Back navigation */
 .back-navigation {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 }
 
 .back-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  color: var(--text-color-secondary);
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
   text-decoration: none;
-  font-size: 0.875rem;
-  border-radius: 4px;
-  transition: all 0.2s;
+  transition: color 0.2s;
 }
 
 .back-button:hover {
-  background: var(--surface-hover);
-  color: var(--text-color);
+  color: #111827;
 }
 
 .back-icon {
-  font-size: 1.25rem;
+  margin-right: 4px;
+  font-size: 16px;
 }
 
 /* Driver profile header */
 .driver-profile-header {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  background: var(--surface-card);
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: var(--card-shadow);
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
 }
 
 .driver-avatar {
-  flex-shrink: 0;
+  margin-right: 24px;
 }
 
 .avatar-circle {
   width: 64px;
   height: 64px;
-  background: var(--surface-ground);
   border-radius: 50%;
+  background-color: #eff6ff;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .avatar-icon {
-  font-size: 2rem;
-  color: var(--text-color-secondary);
+  font-size: 32px;
 }
 
 .driver-info {
-  flex-grow: 1;
+  flex: 1;
 }
 
 .driver-name {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 600;
-  color: var(--text-color);
-  margin: 0 0 0.5rem;
+  color: #111827;
+  margin: 0 0 4px 0;
 }
 
 .driver-status {
-  color: var(--text-color-secondary);
-  font-size: 0.875rem;
+  font-size: 14px;
+  color: #6b7280;
   margin: 0;
 }
 
 .status-active {
-  color: var(--green-500);
+  color: #047857;
   font-weight: 500;
 }
 
 .status-inactive {
-  color: var(--red-500);
+  color: #b91c1c;
   font-weight: 500;
 }
 
-.status-pending {
-  color: var(--yellow-500);
+.status-invited {
+  color: #1d4ed8;
   font-weight: 500;
+}
+
+.status-registered {
+  color: #92400e;
+  font-weight: 500;
+}
+
+.driver-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.manage-vehicle-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #3b82f6;
+}
+
+.manage-vehicle-btn:hover {
+  background-color: #2563eb;
+}
+
+.vehicle-icon {
+  font-size: 14px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-success {
+  background-color: #10b981;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #059669;
+}
+
+.btn-warning {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
 }
 
 /* Driver tabs */
@@ -115,7 +196,9 @@
   font-weight: 500;
   border-radius: 4px;
   white-space: nowrap;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .driver-tab:hover {
@@ -128,61 +211,116 @@
   color: var(--primary-color-text);
 }
 
+.driver-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.driver-tab:hover::after {
+  width: 100%;
+}
+
+.driver-tab.active::after {
+  width: 100%;
+}
+
 /* Details section */
 .details-section {
-  background: var(--surface-card);
+  background-color: #f9fafb;
   border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: var(--card-shadow);
+  margin-bottom: 24px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0.8;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--surface-border);
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f3f4f6;
 }
 
 .section-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-color);
   margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
 }
 
 .details-container {
-  padding: 1.5rem;
+  padding: 24px;
 }
 
 .details-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.details-row:last-child {
+  margin-bottom: 0;
 }
 
 .details-column {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex: 1;
+  min-width: 250px;
+  padding-right: 24px;
 }
 
 .detail-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  margin-bottom: 16px;
 }
 
 .detail-label {
-  font-size: 0.875rem;
+  display: block;
+  font-size: 12px;
   font-weight: 500;
-  color: var(--text-color-secondary);
+  color: #6b7280;
+  margin-bottom: 4px;
 }
 
 .detail-value {
-  font-size: 1rem;
-  color: var(--text-color);
-  padding: 0.5rem 0;
+  font-size: 14px;
+  color: #111827;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.details-actions {
+  margin-top: 24px;
+  text-align: right;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+.download-icon {
+  margin-right: 8px;
 }
 
 /* Customer Badge */
@@ -305,28 +443,6 @@
   font-style: italic;
 }
 
-/* Actions */
-.details-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--surface-border);
-}
-
-.download-btn,
-.upload-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.download-icon,
-.upload-icon {
-  font-size: 1.25rem;
-}
-
 /* Loading and error states */
 .loading-container {
   display: flex;
@@ -339,20 +455,21 @@
 
 .error-container {
   text-align: center;
-  padding: 2rem;
+  padding: 48px 24px;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .error-container h3 {
-  color: var(--danger-color);
-  margin-bottom: 1rem;
+  color: #b91c1c;
+  margin-bottom: 8px;
+  font-size: 20px;
 }
 
 .error-container p {
-  color: #666;
-  margin-bottom: 1.5rem;
+  color: #4b5563;
+  margin-bottom: 24px;
 }
 
 /* Responsive styles */
@@ -383,59 +500,62 @@
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
+  .dashboard-content {
+    background-color: #1f2937;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
   .back-button {
-    background-color: #2C3E50;
-    color: #ECF0F1;
+    color: #9ca3af;
   }
 
   .back-button:hover {
-    background-color: #34495E;
+    color: #e5e7eb;
   }
 
   .driver-profile-header {
-    background-color: #2C3E50;
+    border-bottom-color: #374151;
   }
 
   .avatar-circle {
-    background-color: #34495E;
-  }
-
-  .avatar-icon {
-    color: #ECF0F1;
+    background-color: #1e3a8a;
   }
 
   .driver-name {
-    color: #ECF0F1;
+    color: #f3f4f6;
   }
 
   .driver-status {
-    color: #95A5A6;
+    color: #9ca3af;
   }
 
   .details-section {
-    background-color: #2C3E50;
+    background-color: #111827;
+  }
+
+  .section-header {
+    border-bottom-color: #374151;
+    background-color: #111827;
   }
 
   .section-title {
-    background-color: #34495E;
-    color: #ECF0F1;
-    border-bottom-color: #2C3E50;
+    color: #f3f4f6;
   }
 
   .detail-label {
-    color: #95A5A6;
+    color: #9ca3af;
   }
 
   .detail-value {
-    color: #ECF0F1;
+    color: #e5e7eb;
   }
 
   .error-container {
-    background-color: #2C3E50;
+    background-color: #1f2937;
   }
 
   .error-container p {
-    color: #95A5A6;
+    color: #9ca3af;
   }
 
   .avatar-circle {
@@ -449,4 +569,10 @@
   .document-card {
     background: var(--surface-card);
   }
+}
+
+.driver-actions-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 } 

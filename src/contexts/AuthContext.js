@@ -6,10 +6,12 @@ import {
   signOut,
   sendPasswordResetEmail,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  updatePassword
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/config';
+import { sendWelcomeEmail } from '../services/emailService';
 
 export const AuthContext = createContext();
 
@@ -44,6 +46,9 @@ export function AuthProvider({ children }) {
         createdAt: new Date().toISOString(),
         role: 'admin'
       });
+      
+      // Send welcome email
+      await sendWelcomeEmail(email, firstName);
       
       return userCredential.user;
     } catch (err) {
@@ -109,6 +114,21 @@ export function AuthProvider({ children }) {
     }
   }
 
+  const updatePassword = async (newPassword) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('No user is currently signed in');
+      }
+      
+      await updatePassword(user, newPassword);
+      return true;
+    } catch (error) {
+      console.error('Error updating password:', error);
+      throw error;
+    }
+  };
+
   // Set up auth state observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -147,6 +167,7 @@ export function AuthProvider({ children }) {
     login,
     logout,
     resetPassword,
+    updatePassword,
     error,
     clearError: () => setError('')
   };

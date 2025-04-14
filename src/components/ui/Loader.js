@@ -1,25 +1,24 @@
 // src/components/ui/Loader.js
 import React from 'react';
-import '../../styles/ui.css';
+import './Loader.css';
 
-const Loader = ({ size = 'medium', fullScreen = false, text = 'Loading...' }) => {
-  const sizeClass = `loader-${size}`;
-  
+const Loader = ({ message = 'Loading...', fullScreen = false }) => {
+  const loaderContent = (
+    <div className="loader-container">
+      <div className="loader-spinner"></div>
+      {message && <div className="loader-message">{message}</div>}
+    </div>
+  );
+
   if (fullScreen) {
     return (
       <div className="loader-fullscreen">
-        <div className={`loader ${sizeClass}`}></div>
-        {text && <div className="loader-text">{text}</div>}
+        {loaderContent}
       </div>
     );
   }
-  
-  return (
-    <div className="loader-container">
-      <div className={`loader ${sizeClass}`}></div>
-      {text && <div className="loader-text">{text}</div>}
-    </div>
-  );
+
+  return loaderContent;
 };
 
 export default Loader;

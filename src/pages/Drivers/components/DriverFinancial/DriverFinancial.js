@@ -246,19 +246,8 @@ const DriverFinancial = () => {
   }
 
   return (
-    <div className="financial-details">
+    <>
       {successMessage && <Alert message={successMessage} type="success" autoClose />}
-      
-      <div className="financial-header">
-        <div className="driver-info">
-          <h2 className="driver-name">{driver.firstName} {driver.lastName}</h2>
-          <p className="driver-meta">
-            Status: <span className={`status-badge status-${driver.status}`}>{driver.status}</span>
-            <span className="separator">•</span>
-            Access #: {driver.accessNumber || '0000000'}
-          </p>
-        </div>
-      </div>
 
       <div className="financial-sections">
         <Card className="financial-section">
@@ -266,7 +255,7 @@ const DriverFinancial = () => {
             <h3 className="section-title">Payroll Details</h3>
             {!editPayroll && (
               <button 
-                className="btn btn-secondary edit-btn"
+                className="edit-btn"
                 onClick={() => setEditPayroll(true)}
               >
                 Edit Payroll
@@ -372,7 +361,7 @@ const DriverFinancial = () => {
             <h3 className="section-title">Tax Information</h3>
             {!editTax && (
               <button 
-                className="btn btn-secondary edit-btn"
+                className="edit-btn"
                 onClick={() => setEditTax(true)}
               >
                 Edit Tax Info
@@ -494,7 +483,7 @@ const DriverFinancial = () => {
           )}
         </Card>
       </div>
-    </div>
+    </>
   );
 };
 

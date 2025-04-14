@@ -1,63 +1,84 @@
 /* src/pages/Drivers/styles/drivers.css */
 :root {
-  --primary-color: #65C07A;
-  --primary-dark: #4B9E5F;
-  --primary-light: #E8F5EA;
+  --primary-color: #4CAF50;
+  --primary-dark: #388E3C;
+  --primary-light: #81C784;
   --secondary-color: #4A90E2;
   --dark-color: #2C3E50;
   --gray-color: #95A5A6;
   --border-color: #E1E1E1;
-  --success-color: #27AE60;
-  --warning-color: #F1C40F;
-  --danger-color: #E74C3C;
+  --success-color: #4CAF50;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
   --info-color: #3498DB;
+  --text-color: #111827;
+  --text-color-secondary: #6b7280;
+  --surface-border: #e5e7eb;
+  --surface-card: #ffffff;
+  --surface-hover: #f3f4f6;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Common button styles */
 .btn {
-  padding: 0.625rem 1.25rem;
-  border-radius: 4px;
-  border: none;
-  font-size: 0.875rem;
+  padding: 8px 16px;
+  border-radius: 6px;
   font-weight: 500;
+  font-size: 14px;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.btn:active {
-  transform: translateY(1px);
+  transition: all 0.2s;
 }
 
 .btn-primary {
   background-color: var(--primary-color);
-  color: white;
+  color: white !important;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
 }
 
+.btn-success {
+  background-color: var(--success-color);
+  color: white !important;
+}
+
+.btn-success:hover {
+  background-color: #059669;
+}
+
+.btn-warning {
+  background-color: var(--warning-color);
+  color: white !important;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  color: white !important;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
 .btn-secondary {
-  background-color: var(--secondary-color);
-  color: white;
+  background-color: #f3f4f6;
+  color: #4b5563 !important;
+  border: 1px solid #e5e7eb;
 }
 
 .btn-secondary:hover {
-  background-color: #357ABD;
+  background-color: #e5e7eb;
 }
 
-.btn-outline {
-  background-color: transparent;
-  color: var(--dark-color);
-  border: 1px solid var(--border-color);
-}
-
-.btn-outline:hover {
-  background-color: #f0f0f0;
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 /* Form styles */
@@ -97,37 +118,66 @@
 
 /* Status badges */
 .status-badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
   font-weight: 500;
 }
 
 .status-active {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
+  color: #047857;
 }
 
 .status-inactive {
-  background-color: #FDE8E7;
-  color: var(--danger-color);
+  color: #b91c1c;
 }
 
-.status-pending {
-  background-color: #FFF3DC;
-  color: #F1A204;
+.status-invited {
+  color: #1d4ed8;
+}
+
+.status-registered {
+  color: #92400e;
+}
+
+.status-badge.status-active {
+  background-color: #ecfdf5;
+  color: #047857;
+}
+
+.status-badge.status-inactive {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+.status-badge.status-invited {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.status-badge.status-registered {
+  background-color: #fef3c7;
+  color: #92400e;
 }
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-color: #65C07A;
-    --primary-dark: #4B9E5F;
-    --primary-light: #1A2F1D;
+    --primary-color: #3b82f6;
+    --primary-dark: #1d4ed8;
+    --primary-light: #60a5fa;
     --dark-color: #ECF0F1;
     --gray-color: #95A5A6;
     --border-color: #2C3E50;
+    --text-color: #f3f4f6;
+    --text-color-secondary: #9ca3af;
+    --surface-border: #374151;
+    --surface-card: #1f2937;
+    --surface-hover: #374151;
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   body {
@@ -158,4 +208,99 @@
   .form-label {
     color: #ECF0F1;
   }
+
+  .btn-secondary {
+    background-color: #374151;
+    color: #e5e7eb;
+  }
+
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+}
+
+/* Regras mais específicas para botões em formulários */
+form .btn {
+  min-width: 120px !important;
+  height: auto !important;
+}
+
+form .btn-primary {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+form .btn-primary:hover {
+  background-color: #388E3C !important;
+}
+
+form .btn-secondary {
+  background-color: #f3f4f6;
+  color: #4b5563 !important;
+  border: 1px solid #e5e7eb;
+}
+
+form .btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* Dark mode para botões de formulário */
+@media (prefers-color-scheme: dark) {
+  form .btn-secondary {
+    background-color: #374151;
+    color: #e5e7eb !important;
+    border: 1px solid #4b5563;
+  }
+  
+  form .btn-secondary:hover {
+    background-color: #4b5563;
+    color: #f3f4f6 !important;
+  }
+}
+
+/* Garantir que os links de menu mantenham sua cor original */
+.driver-tab, 
+.nav-link,
+.menu-item,
+a.driver-tab,
+.driver-tabs a.driver-tab {
+  color: #5c5c5c !important;
+}
+
+.driver-tab.active,
+a.driver-tab.active,
+.driver-tabs a.driver-tab.active {
+  color: #2c2c2c !important;
+}
+
+/* Média query para modo escuro */
+@media (prefers-color-scheme: dark) {
+  .driver-tab, 
+  .nav-link,
+  .menu-item,
+  a.driver-tab,
+  .driver-tabs a.driver-tab {
+    color: #a0a0a0 !important;
+  }
+  
+  .driver-tab.active,
+  a.driver-tab.active,
+  .driver-tabs a.driver-tab.active {
+    color: #e1e1e1 !important;
+  }
+}
+
+/* Garantir que nenhum outro elemento tenha a cor branca forçadamente */
+.btn:not(.btn-primary):not(.btn-success):not(.btn-warning):not(.btn-danger):not(.btn-info) {
+  color: inherit;
+}
+
+/* Regras específicas para botões dentro das abas de driver */
+.driver-content-scroll .btn-primary {
+  background-color: var(--primary-color);
+  color: white !important;
+}
+
+.driver-content-scroll .btn-primary:hover {
+  background-color: var(--primary-dark);
 } 

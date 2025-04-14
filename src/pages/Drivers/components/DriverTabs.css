@@ -1,0 +1,105 @@
+/* Container para as tabs, garantindo que sejam estáticas */
+.tabs-container {
+  width: 100%;
+  position: relative;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Estilos específicos para tabs que não serão afetados por outras regras */
+.driver-tabs {
+  position: relative;
+  background-color: white;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  display: flex;
+  min-height: 48px;
+  overflow-x: visible; /* Alterado de auto para visible */
+  z-index: 1;
+  transform: translateZ(0);
+  will-change: transform;
+  height: 48px;
+  box-sizing: border-box;
+  transition: none;
+  /* Remover comportamentos de scroll */
+  overscroll-behavior: none;
+  scroll-behavior: auto;
+  flex-wrap: wrap; /* Permite quebra de linha se necessário */
+  justify-content: flex-start;
+  border-bottom: none; /* Removido porque já está no container */
+}
+
+.driver-tab {
+  padding: 10px 20px;
+  margin-right: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+  height: 45px;
+  box-sizing: border-box;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  /* Evitar mudanças de layout */
+  transform: translateZ(0);
+  /* Evitar trigger de scroll */
+  overscroll-behavior: none;
+}
+
+.driver-tab.active {
+  font-weight: 600;
+  border-bottom: 3px solid #3b82f6;
+  /* Garantir que não haja mudança de altura */
+  box-sizing: border-box;
+}
+
+/* Prevenir que o hover cause mudanças na altura/layout */
+.driver-tab:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  /* Sem mudança na altura ou borda durante hover */
+  border-bottom: 3px solid transparent;
+}
+
+.driver-tab.active:hover {
+  border-bottom: 3px solid #3b82f6;
+}
+
+/* Sobrescrever qualquer !important usando seletores mais fortes */
+.driver-tabs a.driver-tab {
+  color: #5c5c5c !important;
+}
+
+.driver-tabs a.driver-tab.active {
+  color: #2c2c2c !important;
+}
+
+.driver-tabs a.driver-tab:hover {
+  color: #2c2c2c !important;
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .driver-tabs {
+    background-color: #1e1e1e;
+    border-bottom-color: #383838;
+  }
+  
+  .driver-tabs a.driver-tab {
+    color: #a0a0a0 !important;
+  }
+  
+  .driver-tabs a.driver-tab.active {
+    color: #e1e1e1 !important;
+  }
+  
+  .driver-tabs a.driver-tab:hover {
+    color: #e1e1e1 !important;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+} 
