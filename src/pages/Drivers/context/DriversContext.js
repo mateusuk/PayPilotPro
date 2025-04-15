@@ -25,11 +25,19 @@ export const DriversProvider = ({ children }) => {
   }, []);
 
   const getDriversByStatus = useCallback(async (status) => {
+    if (!currentUser) {
+      throw new Error('Usuário não autenticado');
+    }
+
     setLoading(true);
     try {
       // Usar a API nativa do Firebase
       const driversRef = collection(db, 'drivers');
-      const q = query(driversRef, where('status', '==', status));
+      const q = query(
+        driversRef, 
+        where('userId', '==', currentUser.uid),
+        where('status', '==', status)
+      );
       const querySnapshot = await getDocs(q);
       
       const drivers = [];
@@ -45,19 +53,24 @@ export const DriversProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentUser]);
 
   const addDriver = useCallback(async (driverData) => {
+    if (!currentUser) {
+      throw new Error('Usuário não autenticado');
+    }
+
     setLoading(true);
     try {
       console.log('DriversContext: Adicionando motorista:', driverData);
       
-      // Adicionar metadados
+      // Adicionar metadados e userId
       const dataWithMeta = {
         ...driverData,
+        userId: currentUser.uid,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-        createdBy: currentUser?.uid || null,
+        createdBy: currentUser.uid,
         onboardingProgress: 0
       };
       
@@ -70,9 +83,10 @@ export const DriversProvider = ({ children }) => {
       return {
         id: docRef.id,
         ...driverData,
+        userId: currentUser.uid,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        createdBy: currentUser?.uid || null
+        createdBy: currentUser.uid
       };
     } catch (err) {
       console.error('DriversContext: Erro ao adicionar motorista:', err);
@@ -84,9 +98,26 @@ export const DriversProvider = ({ children }) => {
   }, [currentUser]);
 
   const updateDriver = useCallback(async (driverId, data) => {
+    if (!currentUser) {
+      throw new Error('Usuário não autenticado');
+    }
+
     setLoading(true);
     try {
       console.log('DriversContext: Atualizando motorista com ID:', driverId, data);
+      
+      // Verificar se o driver pertence ao usuário atual
+      const driverRef = doc(db, 'drivers', driverId);
+      const driverSnap = await getDoc(driverRef);
+      
+      if (!driverSnap.exists()) {
+        throw new Error('Motorista não encontrado');
+      }
+      
+      const driverData = driverSnap.data();
+      if (driverData.userId !== currentUser.uid) {
+        throw new Error('Não autorizado a modificar este motorista');
+      }
       
       // Adicionar timestamp de atualização
       const updateData = {
@@ -94,8 +125,6 @@ export const DriversProvider = ({ children }) => {
         updatedAt: serverTimestamp()
       };
       
-      // Usar a API nativa do Firebase
-      const driverRef = doc(db, 'drivers', driverId);
       await updateDoc(driverRef, updateData);
       
       return { id: driverId, ...data };
@@ -106,16 +135,29 @@ export const DriversProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentUser]);
 
   const deleteDriver = useCallback(async (driverId) => {
+    if (!currentUser) {
+      throw new Error('Usuário não autenticado');
+    }
+
     setLoading(true);
     try {
-      console.log('DriversContext: Removendo motorista com ID:', driverId);
+      // Verificar se o driver pertence ao usuário atual
+      const driverRef = doc(db, 'drivers', driverId);
+      const driverSnap = await getDoc(driverRef);
       
-      // Usar a API nativa do Firebase
-      await deleteDoc(doc(db, 'drivers', driverId));
+      if (!driverSnap.exists()) {
+        throw new Error('Motorista não encontrado');
+      }
       
+      const driverData = driverSnap.data();
+      if (driverData.userId !== currentUser.uid) {
+        throw new Error('Não autorizado a deletar este motorista');
+      }
+      
+      await deleteDoc(driverRef);
       return true;
     } catch (err) {
       console.error('DriversContext: Erro ao remover motorista:', err);
@@ -124,22 +166,30 @@ export const DriversProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentUser]);
 
   const getDriverById = useCallback(async (driverId) => {
+    if (!currentUser) {
+      throw new Error('Usuário não autenticado');
+    }
+
     setLoading(true);
     try {
       console.log('DriversContext: Buscando motorista com ID:', driverId);
       
-      // Usar a API nativa do Firebase
       const driverRef = doc(db, 'drivers', driverId);
       const driverSnap = await getDoc(driverRef);
       
-      if (driverSnap.exists()) {
-        return { id: driverSnap.id, ...driverSnap.data() };
-      } else {
+      if (!driverSnap.exists()) {
         throw new Error('Motorista não encontrado');
       }
+      
+      const driverData = driverSnap.data();
+      if (driverData.userId !== currentUser.uid) {
+        throw new Error('Não autorizado a visualizar este motorista');
+      }
+      
+      return { id: driverSnap.id, ...driverData };
     } catch (err) {
       console.error('DriversContext: Erro ao buscar motorista:', err);
       setError(err.message);
@@ -147,7 +197,7 @@ export const DriversProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentUser]);
 
   const updateDriverStatus = useCallback(async (driverId, newStatus) => {
     setLoading(true);
